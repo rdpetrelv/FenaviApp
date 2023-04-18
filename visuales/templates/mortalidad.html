@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+
+{% block scripts %}
+<script>
+    // jquery function
+
+    $(document).ready(function(){
+        var grafico_mortalidad_mixtoCtx = document.getElementById('grafico_mortalidad_mixto').getContext('2d');
+        var grafico_mortalidad_mixto = new Chart(grafico_mortalidad_mixtoCtx, {
+            data: {
+                labels: [ {% for semana in semanas %} {{semana}}, {%endfor%}], //loop through queryset, 
+                datasets: [{
+                    type: 'line',
+                    label: 'Tasa mortalidad mixto',
+                    fill: false,
+                    data: [{% for mixto_acumulado_porcentaje in mixto_acumulados_porcentaje %} {{mixto_acumulado_porcentaje}}*100 ,{% endfor %}],
+                    backgroundColor: '#36a2eb' ,
+                    borderColor: '#36a2eb',
+                    borderWidth: 3
+                },{
+                    type: 'line',
+                    label: 'Máxima tasa mortalidad mixto',
+                    fill: false,
+                    data: [{% for objetiv in objetivo %} {{objetiv}},{% endfor %}],
+                    borderColor: '#ff6384',
+                    backgroundColor: '#ff6384',
+                    borderWidth: 0.5
+                }
+            ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Porcentaje'
+                        },
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Semanas del ciclo de producción'
+                    }
+                    }]
+                }
+            }
+        });
+
+        var grafico_mortalidad_machosCtx = document.getElementById('grafico_mortalidad_machos').getContext('2d');
+        var grafico_mortalidad_machos = new Chart(grafico_mortalidad_machosCtx, {
+            type: 'line',
+            data: {
+                labels: [ {% for row in data_machos %} {{row.semana}}, {%endfor%}], //loop through queryset, 
+                datasets: [{
+                    label: 'Tasa mortalidad machos',
+                    fill: false,
+                    data: [ {% for row in data_machos %} {{row.acumulada_porcentaje}}*100 ,{% endfor %}],
+                    backgroundColor: '#36a2eb' ,
+                    borderColor: '#36a2eb',
+                    borderWidth: 3
+                },{
+                    type: 'line',
+                    label: 'Máxima tasa mortalidad machos',
+                    fill: false,
+                    data: [{% for objetiv in objetivo %} {{objetiv}},{% endfor %}],
+                    borderColor: '#ff6384',
+                    backgroundColor: '#ff6384',
+                    borderWidth: 0.5
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Porcentaje'
+                        },
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Semanas del ciclo de producción'
+                    }
+                    }]
+                }
+            }
+        });
+
+        var grafico_mortalidad_hembrasCtx = document.getElementById('grafico_mortalidad_hembras').getContext('2d');
+        var grafico_mortalidad_hembras = new Chart(grafico_mortalidad_hembrasCtx, {
+            type: 'line',
+            data: {
+                labels: [ {% for row in data_hembras %} {{row.semana}}, {%endfor%}], //loop through queryset, 
+                datasets: [{
+                    label: 'Tasa mortalidad hembras',
+                    fill: false,
+                    data: [ {% for row in data_hembras %} {{row.acumulada_porcentaje}}*100 ,{% endfor %}],
+                    backgroundColor: '#36a2eb' ,
+                    borderColor: '#36a2eb',
+                    borderWidth: 3
+                },{
+                    type: 'line',
+                    label: 'Máxima tasa mortalidad hembras',
+                    fill: false,
+                    data: [{% for objetiv in objetivo %} {{objetiv}},{% endfor %}],
+                    borderColor: '#ff6384',
+                    backgroundColor: '#ff6384',
+                    borderWidth: 0.5
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Porcentaje'
+                        },
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Semanas del ciclo de producción'
+                    }
+                    }]
+                }
+            }
+        });
+    });
+
+
+
+</script>
+
+{% endblock scripts %}
+
+
+{% block content %}
+
+<h1> Tasa de mortalidad </h1>
+
+<!-- displaying the chart -->
+<!-- you can also play around with the width and height to increase or decrease the chart size -->
+
+<div class="card mb-3 text-center">
+
+    <h5> Tasa de mortalidad para el ciclo de producción actual</h5>
+    <h5> {{ user.first_name }} {{ user.last_name }}  </h5>
+    <canvas id="grafico_mortalidad_mixto" width="300" height="300"></canvas>
+    <div class="container text-center">
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-outline-primary">Aves iniciales: {{ mixto_inicial}}</button>
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-primary">Saldo de Aves: {{mixto_final}} </button>
+          </div>
+        </div>
+    </div>    
+    <h5> </h5>    
+        
+    
+
+</div>
+
+<div class="card mb-3 text-center">
+
+    <h5> Tasa de mortalidad machos para el ciclo de producción actual</h5>
+    <canvas id="grafico_mortalidad_machos" width="300" height="300"></canvas>
+    <div class="container text-center">
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-outline-primary">Aves iniciales: {{ machos_inicial}}</button>
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-primary">Saldo de Aves: {{machos_final}} </button>
+          </div>
+        </div>
+    </div>    
+    <h5> </h5>
+</div>
+
+<div class="card mb-3 text-center">
+
+    <h5> Tasa de mortalidad hembras para el ciclo de producción actual</h5>
+    <canvas id="grafico_mortalidad_hembras" width="300" height="300"></canvas>
+    <div class="container text-center">
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-outline-primary">Aves iniciales: {{ hembras_inicial}}</button>
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-primary">Saldo de Aves: {{hembras_final}} </button>
+          </div>
+        </div>
+    </div>    
+    <h5> </h5>
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+
+{% block scripts %}
+<script>
+    // jquery function
+
+    $(document).ready(function(){
+        var grafico_conversion_mixtoCtx = document.getElementById('grafico_conversion_mixto').getContext('2d');
+        var grafico_conversion_mixto = new Chart(grafico_conversion_mixtoCtx, {
+            data: {
+                labels: [ {% for semana in semanas %} {{semana}}, {%endfor%}], //loop through queryset, 
+                datasets: [{
+                    type: 'line',
+                    label: 'Conversión Alimenticia mixto',
+                    fill: false,
+                    data: [{% for mixto_conversion_semana in mixto_conversion_semanas %} {{mixto_conversion_semana}},{% endfor %}],
+                    backgroundColor: '#36a2eb' ,
+                    borderColor: '#36a2eb',
+                    borderWidth: 3
+                },{
+                    type: 'line',
+                    label: 'CA objetivo mixto',
+                    fill: false,
+                    data: [{% for semana in semanas %} {{objetivos_mixto}},{% endfor %}],
+                    borderColor: '#27E58B',
+                    backgroundColor: '#27E58B',
+                    borderWidth: 0.5
+                }
+            ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Porcentaje'
+                        },
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Semanas del ciclo de producción'
+                    }
+                    }]
+                }
+            }
+        });
+
+        var grafico_conversion_machosCtx = document.getElementById('grafico_conversion_machos').getContext('2d');
+        var grafico_conversion_machos = new Chart(grafico_conversion_machosCtx, {
+            type: 'line',
+            data: {
+                labels: [ {% for row in machos_consumo_filtered %} {{row.semana}}, {%endfor%}], //loop through queryset, 
+                datasets: [{
+                    label: 'Conversión Alimenticia machos',
+                    fill: false,
+                    data: [ {% for row in machos_consumo_filtered %} {{row.c_a_acum}} ,{% endfor %}],
+                    backgroundColor: '#36a2eb' ,
+                    borderColor: '#36a2eb',
+                    borderWidth: 3
+                },{
+                    type: 'line',
+                    label: 'CA objetivo machos',
+                    fill: false,
+                    data: [{% for row in machos_consumo_filtered %} {{objetivos_macho}},{% endfor %}],
+                    borderColor: '#27E58B',
+                    backgroundColor: '#27E58B',
+                    borderWidth: 0.5
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Porcentaje'
+                        },
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Semanas del ciclo de producción'
+                    }
+                    }]
+                }
+            }
+        });
+
+        var grafico_conversion_hembrasCtx = document.getElementById('grafico_conversion_hembras').getContext('2d');
+        var grafico_conversion_hembras = new Chart(grafico_conversion_hembrasCtx, {
+            type: 'line',
+            data: {
+                labels: [ {% for row in hembras_consumo_filtered %} {{row.semana}}, {%endfor%}], //loop through queryset, 
+                datasets: [{
+                    label: 'Conversión Alimenticia hembras',
+                    fill: false,
+                    data: [ {% for row in hembras_consumo_filtered %} {{row.c_a_acum}} ,{% endfor %}],
+                    backgroundColor: '#36a2eb' ,
+                    borderColor: '#36a2eb',
+                    borderWidth: 3
+                },{
+                    type: 'line',
+                    label: 'CA objetivo hembras',
+                    fill: false,
+                    data: [{% for row in hembras_consumo_filtered %} {{objetivos_hembra}},{% endfor %}],
+                    borderColor: '#27E58B',
+                    backgroundColor: '#27E58B',
+                    borderWidth: 0.5
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Porcentaje'
+                        },
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Semanas del ciclo de producción'
+                    }
+                    }]
+                }
+            }
+        });
+    });
+
+
+
+</script>
+
+{% endblock scripts %}
+
+
+{% block content %}
+
+<h1> Conversión Alimenticia </h1>
+
+<!-- displaying the chart -->
+<!-- you can also play around with the width and height to increase or decrease the chart size -->
+
+<div class="card mb-3 text-center">
+
+    <h5> Conversión Alimenticia para el ciclo de producción actual</h5>
+    <h5> {{ user.first_name }} {{ user.last_name }}  </h5>
+    <canvas id="grafico_conversion_mixto" width="300" height="300"></canvas>
+    <div class="container text-center">
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-outline-primary">CA actual: {{ mixto_conversion_actual}}</button>
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-primary">CA objetivo: {{objetivos_mixto}} </button>
+          </div>
+        </div>
+    </div>    
+    <h5> </h5>    
+        
+    
+
+</div>
+
+<div class="card mb-3 text-center">
+
+    <h5> Conversión Alimenticia machos para el ciclo de producción actual</h5>
+    <canvas id="grafico_conversion_machos" width="300" height="300"></canvas>
+    <div class="container text-center">
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-outline-primary">CA actual: {{ machos_conversion_actual}}</button>
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-primary">CA objetivo: {{objetivos_macho}} </button>
+          </div>
+        </div>
+    </div>    
+    <h5> </h5>
+</div>
+
+<div class="card mb-3 text-center">
+
+    <h5> Conversión Alimenticia hembras para el ciclo de producción actual</h5>
+    <canvas id="grafico_conversion_hembras" width="300" height="300"></canvas>
+    <div class="container text-center">
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-outline-primary">CA actual: {{ hembras_conversion_actual}}</button>
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-primary">CA objetivo: {{objetivos_hembra}} </button>
+          </div>
+        </div>
+    </div>    
+    <h5> </h5>
+</div>
+
+
+{% endblock content %}

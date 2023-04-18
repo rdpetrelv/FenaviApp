@@ -1,0 +1,71 @@
+
+{% extends 'base.html' %}
+
+{% block scripts %}
+<script>
+    // jquery function
+
+    $(document).ready(function(){
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [ {% for data in qs %} '{{data.productor}}', {%endfor%}], //loop through queryset, 
+                datasets: [{
+                    label: 'IP ciclo actual',
+                    data: [ {% for data in qs %} {{data.indice_productividad}} ,{% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)', 
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+
+
+
+</script>
+
+{% endblock scripts %}
+
+
+{% block content %}
+
+<h1> Índice de productividad </h1>
+
+<!-- displaying the chart -->
+<!-- you can also play around with the width and height to increase or decrease the chart size -->
+
+<div class="card mb-3 text-center">
+
+    <h5> IP ciclo actual por productor</h5>
+    <canvas id="myChart" width="400" height="400"></canvas>
+
+
+</div>
+
+
+
+{% endblock content %}
