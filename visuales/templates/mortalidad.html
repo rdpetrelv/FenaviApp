@@ -4,27 +4,34 @@
 <script>
     // jquery function
 
+    
+
     $(document).ready(function(){
+        
         var grafico_mortalidad_mixtoCtx = document.getElementById('grafico_mortalidad_mixto').getContext('2d');
         var grafico_mortalidad_mixto = new Chart(grafico_mortalidad_mixtoCtx, {
             data: {
-                labels: [ {% for semana in semanas %} {{semana}}, {%endfor%}], //loop through queryset, 
+                labels: [ {% for semana in semanas_posibles %} {{semana}}, {%endfor%}], //loop through queryset, 
                 datasets: [{
                     type: 'line',
-                    label: 'Tasa mortalidad mixto',
+                    label: 'Tasa de mortalidad mixto',
                     fill: false,
-                    data: [{% for mixto_acumulado_porcentaje in mixto_acumulados_porcentaje %} {{mixto_acumulado_porcentaje}}*100 ,{% endfor %}],
+                    data: [{% for row in mixto_acumulados_porcentaje %} {{row}}*100 ,{% endfor %}],
                     backgroundColor: '#36a2eb' ,
                     borderColor: '#36a2eb',
-                    borderWidth: 3
+                    borderWidth: 3,
+                    pointHitRadius : 15,
                 },{
                     type: 'line',
-                    label: 'Máxima tasa mortalidad mixto',
+                    label: 'Meta de mortalidad',
                     fill: false,
-                    data: [{% for objetiv in objetivo %} {{objetiv}},{% endfor %}],
+                    data: [{% for objetiv in objetivo_mortalidad %} {{objetiv}}*100,{% endfor %}],
                     borderColor: '#ff6384',
                     backgroundColor: '#ff6384',
-                    borderWidth: 0.5
+                    borderWidth: 1.5,
+                    pointHitRadius : 15,
+                    pointRadius : false,
+                    pointHoverRadius : 0,
                 }
             ]
             },
@@ -43,7 +50,7 @@
                     xAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: 'Semanas del ciclo de producción'
+                            labelString: 'Semanas del ciclo'
                     }
                     }]
                 }
@@ -54,22 +61,26 @@
         var grafico_mortalidad_machos = new Chart(grafico_mortalidad_machosCtx, {
             type: 'line',
             data: {
-                labels: [ {% for row in data_machos %} {{row.semana}}, {%endfor%}], //loop through queryset, 
+                labels: [{% for semana in semanas_posibles %} {{semana}}, {%endfor%}], //loop through queryset, 
                 datasets: [{
                     label: 'Tasa mortalidad machos',
                     fill: false,
-                    data: [ {% for row in data_machos %} {{row.acumulada_porcentaje}}*100 ,{% endfor %}],
+                    data: [ {% for row in machos_acumulados_porcentaje %} {{row}}*100 ,{% endfor %}],
                     backgroundColor: '#36a2eb' ,
                     borderColor: '#36a2eb',
-                    borderWidth: 3
+                    borderWidth: 3,
+                    pointHitRadius : 15,
                 },{
                     type: 'line',
-                    label: 'Máxima tasa mortalidad machos',
+                    label: 'Meta mortalidad',
                     fill: false,
-                    data: [{% for objetiv in objetivo %} {{objetiv}},{% endfor %}],
+                    data: [{% for objetiv in objetivo_mortalidad %} {{objetiv}}*100,{% endfor %}],
                     borderColor: '#ff6384',
                     backgroundColor: '#ff6384',
-                    borderWidth: 0.5
+                    borderWidth: 1,
+                    pointHitRadius : 15,
+                    pointRadius : false,
+                    pointHoverRadius : 0,
                 }]
             },
             options: {
@@ -87,7 +98,7 @@
                     xAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: 'Semanas del ciclo de producción'
+                            labelString: 'Semanas del ciclo'
                     }
                     }]
                 }
@@ -98,22 +109,26 @@
         var grafico_mortalidad_hembras = new Chart(grafico_mortalidad_hembrasCtx, {
             type: 'line',
             data: {
-                labels: [ {% for row in data_hembras %} {{row.semana}}, {%endfor%}], //loop through queryset, 
+                labels: {{semanas_posibles}}, //loop through queryset, 
                 datasets: [{
                     label: 'Tasa mortalidad hembras',
                     fill: false,
-                    data: [ {% for row in data_hembras %} {{row.acumulada_porcentaje}}*100 ,{% endfor %}],
+                    data: [ {% for row in hembras_acumulados_porcentaje %} {{row}}*100 ,{% endfor %}],
                     backgroundColor: '#36a2eb' ,
                     borderColor: '#36a2eb',
-                    borderWidth: 3
+                    borderWidth: 3,
+                    pointHitRadius : 15,
                 },{
                     type: 'line',
-                    label: 'Máxima tasa mortalidad hembras',
+                    label: 'Meta mortalidad',
                     fill: false,
-                    data: [{% for objetiv in objetivo %} {{objetiv}},{% endfor %}],
+                    data: [{% for objetiv in objetivo_mortalidad %} {{objetiv}}*100,{% endfor %}],
                     borderColor: '#ff6384',
                     backgroundColor: '#ff6384',
-                    borderWidth: 0.5
+                    borderWidth: 1,
+                    pointHitRadius : 15,
+                    pointRadius : false,
+                    pointHoverRadius : 0,
                 }]
             },
             options: {
@@ -131,12 +146,13 @@
                     xAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: 'Semanas del ciclo de producción'
+                            labelString: 'Semanas del ciclo'
                     }
                     }]
                 }
             }
         });
+        
     });
 
 
@@ -147,25 +163,43 @@
 
 
 {% block content %}
-
-<h1> Tasa de mortalidad </h1>
-
+<div class="container text-center m-2">
+    <h1> <b>  Tasa de mortalidad </b> </h1>
+</div>
+<div class="container m-2 mb-3 mt-4">
+<h5> Hola, {{ user.first_name }} {{ user.last_name }} ! </h5>
+<h5> A continuación se muestra la evolución de la tasa de mortalidad para el ciclo actual</h5>
+</div>
 <!-- displaying the chart -->
 <!-- you can also play around with the width and height to increase or decrease the chart size -->
 
-<div class="card mb-3 text-center">
-
-    <h5> Tasa de mortalidad para el ciclo de producción actual</h5>
-    <h5> {{ user.first_name }} {{ user.last_name }}  </h5>
-    <canvas id="grafico_mortalidad_mixto" width="300" height="300"></canvas>
+<div class="card mb-3 text-center m-2">
+    <h1></h1>
+    <h5> <b>Mortalidad mixto ciclo {{ultimo_ciclo_mortalidad}}</b></h5>
+    
     <div class="container text-center">
-        <div class="row">
-          <div class="col">
-            <button class="btn btn-outline-primary">Aves iniciales: {{ mixto_inicial}}</button>
-          </div>
-          <div class="col">
-            <button class="btn btn-outline-primary">Saldo de Aves: {{mixto_final}} </button>
-          </div>
+        <canvas id="grafico_mortalidad_mixto" width="300" height="300"></canvas>
+    </div>
+    <div class="container text-center">
+        <div class="row m-2">
+            <div class="col">
+              <button class="btn btn-outline-success btn-lg">Meta final de Aves: {{ objetivo_aves_final_mixto}} </button>
+            </div>
+            <div class="col">
+              <button class="btn btn-outline-success btn-lg">Aves iniciales: {{ mixto_aves_inicial}}</button>
+            </div>
+        </div>
+        <div class="row m-2">
+            <div class="col">
+                {% if ultima_semana_ciclo_mortalidad == 7 %}
+                <button class="btn btn-outline-primary btn-lg" disabled>Meta actual de Aves: {{objetivo_aves_actual_mixto}} </button>
+                {% elif ultima_semana_ciclo_mortalidad != 7 %}
+                <button class="btn btn-outline-primary btn-lg">Meta actual de Aves: {{objetivo_aves_actual_mixto}} </button>
+                {% endif %}
+            </div>
+            <div class="col">
+                <button class="btn btn-outline-primary btn-lg">Aves actuales: {{ mixto_aves_final}}</button>
+            </div>
         </div>
     </div>    
     <h5> </h5>    
@@ -174,35 +208,65 @@
 
 </div>
 
-<div class="card mb-3 text-center">
-
-    <h5> Tasa de mortalidad machos para el ciclo de producción actual</h5>
-    <canvas id="grafico_mortalidad_machos" width="300" height="300"></canvas>
+<div class="card mb-3 text-center m-2">
+    <h1></h1>
+    <h5> <b>Mortalidad machos ciclo {{ultimo_ciclo_mortalidad}}</b></h5>
     <div class="container text-center">
-        <div class="row">
-          <div class="col">
-            <button class="btn btn-outline-primary">Aves iniciales: {{ machos_inicial}}</button>
-          </div>
-          <div class="col">
-            <button class="btn btn-outline-primary">Saldo de Aves: {{machos_final}} </button>
-          </div>
+        <canvas id="grafico_mortalidad_machos" width="300" height="300"></canvas>
+    </div>
+    <div class="container text-center">
+        <div class="row m-2">
+            <div class="col">
+              <button class="btn btn-outline-success btn-lg">Meta final de Aves: {{ objetivo_aves_final_machos}} </button>
+            </div>
+            <div class="col">
+              <button class="btn btn-outline-success btn-lg">Aves iniciales: {{ machos_aves_inicial}}</button>
+            </div>
+        </div>
+        <div class="row m-2">
+            <div class="col">
+                {% if ultima_semana_ciclo_mortalidad == 7 %}
+                    <button class="btn btn-outline-primary btn-lg" disabled>Meta actual de Aves: {{objetivo_aves_actual_machos}} </button>
+                {% elif ultima_semana_ciclo_mortalidad != 7 %}
+                    <button class="btn btn-outline-primary btn-lg">Meta actual de Aves: {{objetivo_aves_actual_machos}} </button>
+                {% endif %}
+            </div>
+            <div class="col">
+                <button class="btn btn-outline-primary btn-lg">Aves actuales: {{ machos_aves_final}}</button>
+            </div>
         </div>
     </div>    
     <h5> </h5>
 </div>
 
-<div class="card mb-3 text-center">
-
-    <h5> Tasa de mortalidad hembras para el ciclo de producción actual</h5>
-    <canvas id="grafico_mortalidad_hembras" width="300" height="300"></canvas>
+<div class="card mb-3 text-center m-2">
+    <h1></h1>
+    <h5> <b>Mortalidad hembras ciclo {{ultimo_ciclo_mortalidad}}</b></h5>
     <div class="container text-center">
-        <div class="row">
-          <div class="col">
-            <button class="btn btn-outline-primary">Aves iniciales: {{ hembras_inicial}}</button>
-          </div>
-          <div class="col">
-            <button class="btn btn-outline-primary">Saldo de Aves: {{hembras_final}} </button>
-          </div>
+        <canvas id="grafico_mortalidad_hembras" width="300" height="300"></canvas>
+    </div>
+    
+
+    <div class="container text-center">
+        <div class="row m-2">
+            <div class="col">
+              <button class="btn btn-outline-success btn-lg">Meta final de Aves: {{objetivo_aves_final_hembras}} </button>
+            </div>
+            <div class="col">
+              <button class="btn btn-outline-success btn-lg">Aves iniciales: {{ hembras_aves_inicial}}</button>
+            </div>
+        </div>
+        <div class="row m-2">
+            <div class="col">
+                {% if ultima_semana_ciclo_mortalidad == 7 %}
+                    <button class="btn btn-outline-primary btn-lg" disabled>Meta actual de Aves: {{objetivo_aves_actual_hembras}} </button>
+                {% elif ultima_semana_ciclo_mortalidad != 7 %}
+                    <button class="btn btn-outline-primary btn-lg">Meta actual de Aves: {{objetivo_aves_actual_hembras}} </button>
+                {% endif %}
+            </div>
+            <div class="col">
+                <button class="btn btn-outline-primary btn-lg">Aves actuales: {{ hembras_aves_final}}</button>
+            </div>
         </div>
     </div>    
     <h5> </h5>

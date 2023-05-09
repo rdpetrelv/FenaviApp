@@ -58,18 +58,22 @@ class Mortalidad(models.Model):
         verbose_name_plural = 'mortalidades'
 
 
-class Ciclo_produccion_Form(ModelForm):  
-    class Meta:  
-        model = Cicloproduccion
-        fields = ['ciclo','dias_ciclo','lote','raza','sexo','aves_iniciales','aves_finales','peso_inicial_gramos','peso_final_gramos','consumo_total_ave_kilogramos','tasa_mortalidad_total','consumo_total_kilogramos','total_bultos','peso_vivo_total_kilogramos','conversion_acumulada','indice_productividad']
+class imagenes_calificacion(models.Model):
+    clasificacion = models.CharField(max_length= 20)
+    image = models.ImageField(upload_to='visuales/images/')
+
+# class Ciclo_produccion_Form(ModelForm):  
+#     class Meta:  
+#         model = Cicloproduccion
+#         fields = ['ciclo','dias_ciclo','lote','raza','sexo','aves_iniciales','aves_finales','peso_inicial_gramos','peso_final_gramos','consumo_total_ave_kilogramos','tasa_mortalidad_total','consumo_total_kilogramos','total_bultos','peso_vivo_total_kilogramos','conversion_acumulada','indice_productividad']
 
 
-class Alimento_Form(ModelForm):  
-    class Meta:  
-        model = Alimento
-        fields =['ciclo','sexo','semana','consumo_ave','peso_ave','c_a_acum']
+# class Alimento_Form(ModelForm):  
+#     class Meta:  
+#         model = Alimento
+#         fields =['ciclo','sexo','semana','consumo_ave','peso_ave','c_a_acum']
 
-class Mortalidad_Form(ModelForm):  
-    class Meta:  
-        model = Mortalidad
-        fields =['ciclo','sexo','semana','total_semana', 'total_acumulada', 'saldo_aves']
+# class Mortalidad_Form(ModelForm):  
+#     class Meta:  
+#         model = Mortalidad
+#         fields =['ciclo','sexo','semana','total_semana', 'total_acumulada', 'saldo_aves']

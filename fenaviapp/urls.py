@@ -17,17 +17,24 @@ from django.contrib import admin
 from django.urls import path, include
 from home import views as homeViews
 from visuales import views as visualesviews
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', homeViews.home, name = 'home'),
-    path('conversion/', visualesviews.visual_Conversion_Alimentica, name = 'conversion'),
-    path('mortalidad/', visualesviews.visual_Mortalidad, name = 'mortalidad'),
-    path('peso/', visualesviews.visual_Evolucion_Peso, name = 'peso'),
+    path('conversion/', visualesviews.visual_Conversion_Alimenticia2, name = 'conversion'),
+    path('mortalidad/', visualesviews.visual_Mortalidad2, name = 'mortalidad'),
+    path('peso/', visualesviews.visual_Evolucion_Peso2, name = 'peso'),
     #path('mortalidad/', visualesviews.Graficos2.as_view(), name = 'mortalidad'),
     #path('indiceproductividad/', visualesviews.indiceproductividad, name = 'indiceproductividad'),
     path('usuarios/', include('home.urls')),
     path('visuales/', include('visuales.urls')),
-    path('indiceproductividad/', visualesviews.visual_Indice_productividad,name='indiceproductividad'),
+    path('indiceproductividad/', visualesviews.visual_Indice_productividad2,name='indiceproductividad'),
+    path('Resumenciclo', visualesviews.visual_Resumen, name = 'resumen'),
+    path('', include('pwa.urls')), 
 ]
+
+urlpatterns += static(settings.MEDIA_URL,
+document_root=settings.MEDIA_ROOT)

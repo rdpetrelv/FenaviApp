@@ -1,6 +1,7 @@
 from django.contrib import admin
 import tablib
-from .models import Cicloproduccion, Alimento, Mortalidad, Ciclo_produccion_Form, Alimento_Form, Mortalidad_Form
+from .models import Cicloproduccion, Alimento, Mortalidad, imagenes_calificacion
+#from .models import Ciclo_produccion_Form, Alimento_Form, Mortalidad_Form
 from import_export.admin import ImportExportModelAdmin
 from import_export import resources
 
@@ -25,4 +26,5 @@ admin.site.register(Cicloproduccion, CicloproduccionAdmin)
 admin.site.register(Alimento, AlimentoAdmin)
 #admin.site.register(Alimento_Form)
 admin.site.register(Mortalidad, MortalidadAdmin)
+admin.site.register(imagenes_calificacion)
 #admin.site.register(Mortalidad_Form)

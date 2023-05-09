@@ -8,23 +8,27 @@
         var grafico_peso_mixtoCtx = document.getElementById('grafico_peso_mixto').getContext('2d');
         var grafico_peso_mixto = new Chart(grafico_peso_mixtoCtx, {
             data: {
-                labels: [ {% for semana in semanas %} {{semana}}, {%endfor%}], //loop through queryset, 
+                labels: [ {% for semana in semanas_posibles %} {{semana}}, {%endfor%}], //loop through queryset, 
                 datasets: [{
                     type: 'line',
-                    label: 'Evolución peso mixto',
+                    label: 'Evolución de peso mixto',
                     fill: false,
-                    data: [{% for mixto_peso_semanas in mixto_pesos_semanas %} {{mixto_peso_semanas}},{% endfor %}],
+                    data: [{% for row in mixto_peso_semanas %} {{row}},{% endfor %}],
                     backgroundColor: '#36a2eb' ,
                     borderColor: '#36a2eb',
-                    borderWidth: 3
+                    borderWidth: 3,
+                    pointHitRadius : 15,
                 },{
                     type: 'line',
-                    label: 'Peso objetivo mixto',
+                    label: 'Meta de peso ',
                     fill: false,
-                    data: [{% for semana in semanas %} {{objetivos_mixto}},{% endfor %}],
+                    data: [{% for obj in objetivo_peso_mixto %} {{obj}},{% endfor %}],
                     borderColor: '#27E58B',
                     backgroundColor: '#27E58B',
-                    borderWidth: 0.5
+                    borderWidth: 1.5,
+                    pointHitRadius : 15,
+                    pointRadius : false,
+                    pointHoverRadius : 0,
                 }
             ]
             },
@@ -43,7 +47,7 @@
                     xAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: 'Semanas del ciclo de producción'
+                            labelString: 'Semanas del ciclo'
                     }
                     }]
                 }
@@ -54,22 +58,26 @@
         var grafico_peso_machos = new Chart(grafico_peso_machosCtx, {
             type: 'line',
             data: {
-                labels: [ {% for row in machos_consumo_filtered %} {{row.semana}}, {%endfor%}], //loop through queryset, 
+                labels: [ {% for semana in semanas_posibles %} {{semana}}, {%endfor%}], //loop through queryset, 
                 datasets: [{
-                    label: 'Evoluciíon peso machos',
+                    label: 'Evoluciíon de peso machos',
                     fill: false,
-                    data: [ {% for row in machos_consumo_filtered %} {{row.peso_ave}} ,{% endfor %}],
+                    data: [ {% for row in machos_peso_semanas %} {{row}} ,{% endfor %}],
                     backgroundColor: '#36a2eb' ,
                     borderColor: '#36a2eb',
-                    borderWidth: 3
+                    borderWidth: 3,
+                    pointHitRadius : 15,
                 },{
                     type: 'line',
-                    label: 'Peso objetivo machos',
+                    label: 'Meta de Peso ',
                     fill: false,
-                    data: [{% for row in machos_consumo_filtered %} {{objetivos_macho}},{% endfor %}],
+                    data: [{% for obj in objetivo_peso_machos %} {{obj}},{% endfor %}],
                     borderColor: '#27E58B',
                     backgroundColor: '#27E58B',
-                    borderWidth: 0.5
+                    borderWidth: 1.5,
+                    pointHitRadius : 15,
+                    pointRadius : false,
+                    pointHoverRadius : 0,
                 }]
             },
             options: {
@@ -87,7 +95,7 @@
                     xAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: 'Semanas del ciclo de producción'
+                            labelString: 'Semanas del ciclo'
                     }
                     }]
                 }
@@ -98,22 +106,26 @@
         var grafico_peso_hembras = new Chart(grafico_peso_hembrasCtx, {
             type: 'line',
             data: {
-                labels: [ {% for row in hembras_consumo_filtered %} {{row.semana}}, {%endfor%}], //loop through queryset, 
+                labels: [ {% for semana in semanas_posibles %} {{semana}}, {%endfor%}], //loop through queryset, 
                 datasets: [{
-                    label: 'Evolución peso hembras',
+                    label: 'Evolución de peso hembras',
                     fill: false,
-                    data: [ {% for row in hembras_consumo_filtered %} {{row.peso_ave}} ,{% endfor %}],
+                    data: [ {% for row in hembras_peso_semanas %} {{row}} ,{% endfor %}],
                     backgroundColor: '#36a2eb' ,
                     borderColor: '#36a2eb',
-                    borderWidth: 3
+                    borderWidth: 3,
+                    pointHitRadius : 15,
                 },{
                     type: 'line',
-                    label: 'Peso objetivo hembras',
+                    label: 'Meta de peso ',
                     fill: false,
-                    data: [{% for row in hembras_consumo_filtered %} {{objetivos_hembra}},{% endfor %}],
+                    data: [{% for obj in objetivo_peso_hembras %} {{obj}},{% endfor %}],
                     borderColor: '#27E58B',
                     backgroundColor: '#27E58B',
-                    borderWidth: 0.5
+                    borderWidth: 1.5,
+                    pointHitRadius : 15,
+                    pointRadius : false,
+                    pointHoverRadius : 0,
                 }]
             },
             options: {
@@ -131,7 +143,7 @@
                     xAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: 'Semanas del ciclo de producción'
+                            labelString: 'Semanas del ciclo'
                     }
                     }]
                 }
@@ -148,63 +160,109 @@
 
 {% block content %}
 
-<h1> Evolución de peso </h1>
+
+<div class="container text-center m-2">
+    <h1> <b>  Evolución de peso </b> </h1>
+</div>
+<div class="container m-2 mb-3 mt-4">
+<h5> Hola, {{ user.first_name }} {{ user.last_name }} ! </h5>
+<h5> A continuación se muestra la evolución de peso de las aves para el ciclo actual</h5>
+</div>
 
 <!-- displaying the chart -->
 <!-- you can also play around with the width and height to increase or decrease the chart size -->
 
-<div class="card mb-3 text-center">
+{{mixto_peso_semanas}}
 
-    <h5> Evolución de peso para el ciclo de producción actual</h5>
-    <h5> {{ user.first_name }} {{ user.last_name }}  </h5>
-    <canvas id="grafico_peso_mixto" width="300" height="300"></canvas>
+<div class="card mb-3 text-center m-2">
+    <h1></h1>
+    <h5> <b>Peso mixto ciclo {{ultimo_ciclo_alimento}}</b></h5>
     <div class="container text-center">
-        <div class="row">
-          <div class="col">
-            <button class="btn btn-outline-primary">Peso actual: {{ mixto_peso_actual}}</button>
-          </div>
-          <div class="col">
-            <button class="btn btn-outline-primary">Peso objetivo: {{objetivos_mixto}} </button>
-          </div>
+        <canvas id="grafico_peso_mixto" width="300" height="300"></canvas>
+    </div>
+    
+    <div class="container text-center">
+        <div class="row m-2">
+            <div class="col">
+              <button class="btn btn-outline-success btn-lg">Meta peso final: {{ objetivo_peso_final_mixto}} </button>
+            </div>
+            <div class="col">
+              <button class="btn btn-outline-success btn-lg">Peso final mixto: {{  mixto_peso_final}}</button>
+            </div>
         </div>
-    </div>    
+        {% if ultima_semana_ciclo_alimento != 7 %}
+            <div class="row m-2">
+                <div class="col">
+                    <button class="btn btn-outline-primary btn-lg">Meta actual de peso: {{objetivo_peso_actual_mixto}} </button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-outline-primary btn-lg">Peso actual mixto: {{  mixto_peso_final}}</button>
+                </div>
+            </div>
+        {% endif %}
+    </div> 
     <h5> </h5>    
         
     
 
 </div>
 
-<div class="card mb-3 text-center">
-
-    <h5> Evolución de peso machos para el ciclo de producción actual</h5>
-    <canvas id="grafico_peso_machos" width="300" height="300"></canvas>
+<div class="card mb-3 text-center m-2">
+    <h1></h1>
+    <h5> <b>Peso machos ciclo {{ultimo_ciclo_alimento}}</b></h5>
     <div class="container text-center">
-        <div class="row">
-          <div class="col">
-            <button class="btn btn-outline-primary">Peso actual: {{ machos_peso_actual}}</button>
-          </div>
-          <div class="col">
-            <button class="btn btn-outline-primary">Peso objetivo: {{objetivos_macho}} </button>
-          </div>
+        <canvas id="grafico_peso_machos" width="300" height="300"></canvas>
+    </div>
+    <div class="container text-center">
+        <div class="row m-2">
+            <div class="col">
+              <button class="btn btn-outline-success btn-lg">Meta peso final: {{ objetivo_peso_final_machos}} </button>
+            </div>
+            <div class="col">
+              <button class="btn btn-outline-success btn-lg">Peso final machos: {{  machos_peso_final}}</button>
+            </div>
         </div>
-    </div>    
+        {% if ultima_semana_ciclo_alimento != 7 %}
+            <div class="row m-2">
+                <div class="col">
+                    <button class="btn btn-outline-primary btn-lg">Meta actual de peso: {{objetivo_peso_actual_machos}} </button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-outline-primary btn-lg">Peso actual machos: {{  machos_peso_final}}</button>
+                </div>
+            </div>
+        {% endif %}
+    </div> 
     <h5> </h5>
 </div>
 
-<div class="card mb-3 text-center">
-
-    <h5> Tasa de mortalidad hembras para el ciclo de producción actual</h5>
-    <canvas id="grafico_peso_hembras" width="300" height="300"></canvas>
+<div class="card mb-3 text-center m-2">
+    <h1></h1>
+    <h5> <b>Peso hembras ciclo {{ultimo_ciclo_alimento}}</b></h5>
     <div class="container text-center">
-        <div class="row">
-          <div class="col">
-            <button class="btn btn-outline-primary">Peso actual: {{ hembras_peso_actual}}</button>
-          </div>
-          <div class="col">
-            <button class="btn btn-outline-primary">Peso objetivo: {{objetivos_hembra}} </button>
-          </div>
+        <canvas id="grafico_peso_hembras" width="300" height="300"></canvas>
+    </div>
+    <div class="container text-center">
+        <div class="row m-2">
+            <div class="col">
+              <button class="btn btn-outline-success btn-lg">Meta peso final: {{ objetivo_peso_final_hembras}} </button>
+            </div>
+            <div class="col">
+              <button class="btn btn-outline-success btn-lg">Peso final hembras: {{  hembras_peso_final}}</button>
+            </div>
         </div>
-    </div>    
+        {% if ultima_semana_ciclo_alimento != 7 %}
+            <div class="row m-2">
+                <div class="col">
+                    <button class="btn btn-outline-primary btn-lg">Meta actual de peso: {{objetivo_peso_actual_hembras}} </button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-outline-primary btn-lg">Peso actual hembras: {{  hembras_peso_final}}</button>
+                </div>
+            </div>
+        {% endif %}
+        
+    </div>  
     <h5> </h5>
 </div>
 

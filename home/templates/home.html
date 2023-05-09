@@ -11,27 +11,30 @@
                         En este espacio podrás consultar tus medidas:
                     </p>
                     <div class="d-grid gap-2 col-6 mx-auto">
-                        <a type = "button" class = "btn btn-outline-primary" href="{% url 'conversion' %}"> Conversión alimenticia </a>
-                        <a type = "button" class = "btn btn-outline-primary" href="{% url 'peso' %}"> Evolución de peso </a>
                         <a type = "button" class = "btn btn-outline-primary" href="{% url 'mortalidad' %}"> Tasa de mortalidad </a>
+                        <a type = "button" class = "btn btn-outline-primary" href="{% url 'peso' %}"> Evolución de peso </a>
+                        <a type = "button" class = "btn btn-outline-primary" href="{% url 'conversion' %}"> Conversión alimenticia </a>
                         <a type = "button" class = "btn btn-outline-primary" href="{% url 'indiceproductividad' %}"> Índice de productividad </a>
+                        <a type = "button" class = "btn btn-outline-primary" href="{% url 'resumen' %}"> Resumen del ciclo </a>
                     </div>
                 </div>
             {% else %}
-                <div class="card-body">
+                <div class="card-body m-2">
                     <h5 class="card-title"> Iniciar sesión</h5>
                     <p>
-                        Por favor inicia sesión consultar tus medidas
+                        Por favor inicia sesión para consultar tus medidas
                     </p>
                     {% if error %}
                         <div class="alert alert-danger mt-3" role="alert">
                             {{ error }}
                         </div>
                     {% endif %}
-                    <p class="card-text">
-                        <form method="POST">
+                    <p class="card-text m-1">
+                        <form method="POST" class="row gy-2 gx-3 align-items-center">
                             {% csrf_token %}
-                            {{ form }}
+                            <div class="mb-3">
+                                {{ form }}
+                            </div>
                             <button type="submit" class="btn btn-primary">
                                 Iniciar sesión
                             </button>

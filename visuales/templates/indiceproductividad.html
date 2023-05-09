@@ -9,11 +9,11 @@
         var Chart_ip_evolucion_ultimos_ciclos = new Chart(Chart_ip_evolucion_ultimos_ciclosCtx, {
             type: 'line',
             data: {
-                labels: [ {% for ciclo in ciclo1 %} {{ciclo}}, {%endfor%}], //loop through queryset, 
+                labels: [ {% for ciclo in ciclos_posibles %} {{ciclo}}, {%endfor%}], //loop through queryset, 
                 datasets: [{
-                    label: 'IP ciclo actual',
+                    label: 'IP',
                     fill: false,
-                    data: [ {% for ip in ips_ciclo %} {{ip}} ,{% endfor %}],
+                    data: [ {% for ip in ip_ciclos_posibles %} {{ip}} ,{% endfor %}],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)', 
                         'rgba(54, 162, 235, 0.2)',
@@ -30,7 +30,8 @@
                         'rgba(153, 102, 255, 1)',
                         'rgba(255, 159, 64, 1)'
                     ],
-                    borderWidth: 5
+                    borderWidth: 5,
+                    pointHitRadius : 15,
                 }]
             },
             options: {
@@ -38,7 +39,23 @@
                 scales: {
                     y: {
                         beginAtZero: true
+                    },
+                    yAxes : [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Índice de productividad'
+                        },
+                        ticks : {
+                            suggestedMax : 115,
+                            suggestedMin : 70
+                        }
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Ciclos'
                     }
+                    }]
                 }
             }
         });
@@ -50,7 +67,7 @@
                 labels: [ {% for productor in productores %} '{{productor}}', {%endfor%}], //loop through queryset, 
                 datasets: [{
                     label: 'IP ciclo actual',
-                    data: [ {% for ip in ips_productor %} {{ip}} ,{% endfor %}],
+                    data: [ {% for ip in ip_productores %} {{ip}} ,{% endfor %}],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)', 
                         'rgba(54, 162, 235, 0.2)',
@@ -67,7 +84,8 @@
                         'rgba(153, 102, 255, 1)',
                         'rgba(255, 159, 64, 1)'
                     ],
-                    borderWidth: 1
+                    borderWidth: 3,
+                    pointHitRadius : 15,
                 }]
             },
             options: {
@@ -75,7 +93,17 @@
                 scales: {
                     y: {
                         beginAtZero: true
-                    }
+                    },
+                    yAxes : [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Índice de productividad'
+                        },
+                        ticks : {
+                            suggestedMax : 115,
+                            suggestedMin : 70
+                        }
+                    }]
                 }
             }
         });
@@ -90,20 +118,56 @@
 
 {% block content %}
 
-<h1> Índice de productividad </h1>
+
+<div class="container text-center m-2">
+    <h1> <b>  Índice de productividad </b> </h1>
+</div>
+<div class="container m-2 mb-3 mt-4">
+<h5> Hola, {{ user.first_name }} {{ user.last_name }} ! </h5>
+<h5> A continuación se muestra el índice de productividad para los ultimos 6 ciclos la comparativa con otros productores para el ciclo actual</h5>
+</div>
 
 <!-- displaying the chart -->
 <!-- you can also play around with the width and height to increase or decrease the chart size -->
 
-<div class="card mb-3 text-center">
-
-    <h5> IP evolucion ultimos 6 ciclos</h5>
-    <canvas id="Chart_ip_evolucion_ultimos_ciclos" width="300" height="300"></canvas>
+<div class="card mb-3 text-center m-2">
+    <h1></h1>
+    <h5> <b>IP últimos 6 ciclos</b></h5>
+    <div class="container text-center">
+        <canvas id="Chart_ip_evolucion_ultimos_ciclos" width="300" height="300"></canvas>
+    </div>
 </div>
-<div class="card mb-3 text-center">
-
-    <h5> IP comparativa productores</h5>
-    <canvas id="Chart_ip_comparativa_integrantes" width="300" height="300"></canvas>
+<div class="card mb-3 text-center m-2">
+    <h1></h1>
+    <h5> <b>IP comparativa ciclo {{ultimo_ciclo_ciclos_produccion}}</b></h5>
+    <div class="container text-center">
+        <canvas id="Chart_ip_comparativa_integrantes" width="300" height="300"></canvas>
+    </div>
+    <div class="row m-2">
+        <div class="col">
+          <button class="btn btn-outline-success btn-lg">Meta IP: 100 </button>
+        </div>
+        <div class="col">
+          <button class="btn btn-outline-success btn-lg">IP actual: {{ultimo_ip_usuario}}</button>
+        </div>
+    </div>
+    <div class="row m-2">
+        <div class="col">
+            {% if 85 > ultimo_ip_usuario  %}
+                {% for obj in regular %}
+                    <img src="{{ obj.image.url }}" width="80" >
+                {% endfor %} 
+            {% elif mixto_aves_final > 100  %}
+                {% for obj in excelente %}
+                    <img src="{{ obj.image.url }}" width="80" >
+                {% endfor %} 
+            {% else %}
+                {% for obj in bueno %}
+                    <img src="{{ obj.image.url }}" width="80" >
+                {% endfor %} 
+            {% endif %}
+        </div>
+    </div>
 </div>
 
 

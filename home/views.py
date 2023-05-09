@@ -13,13 +13,13 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 def home(request):
     if request.method == 'GET':
-        return render(request, 'home.html', {'form':AuthenticationForm})
+        return render(request, 'home.html', {'form': AuthenticationDropdown})
     else:
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
         if user is None:
-            return render(request,'home.html', {'form': AuthenticationForm, 'error': 'username and password do not match'})
+            return render(request,'home.html', {'form': AuthenticationDropdown, 'error': 'Error en nombre de usuario y contraseña, intente nuevamente'})
         else:
-            login(request,user)
+            login(request, user)
             return redirect('home')
 
 @login_required

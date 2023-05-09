@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+
+{% block scripts %}
+
+{% endblock scripts %}
+
+{% block content %}
+
+<div class="container text-center m-2">
+    <h1> <b>  Resumen del ciclo </b> </h1>
+</div>
+<div class="container m-2 mb-3 mt-4">
+<h5> Hola, {{ user.first_name }} {{ user.last_name }} ! </h5>
+<h5> A continuación se muestra el resumen de las medidas para el ciclo {{ultimo_ciclo_mortalidad}} de mortalidad hasta la semana {{ultima_semana_ciclo_mortalidad}} y el ciclo {{ultimo_ciclo_alimento}} de evolucion de peso y CA hasta la semana {{ultima_semana_ciclo_alimento}}</h5>
+</div>
+
+
+
+
+<div class="card mb-3 text-center m-2">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th scope="col">Nombre de la medida</th>
+                {% if ultimo_ciclo_mortalidad == ultimo_ciclo_alimento and ultima_semana_ciclo_mortalidad == ultima_semana_ciclo_alimento%}
+                    {% if ultima_semana_ciclo_alimento == 7 %}
+                        <th scope="col">Valor final</th>
+                        <th scope="col">Meta final</th>
+                    {% endif %}    
+                {% else %}
+                    <th scope="col">Valor actual</th>
+                    <th scope="col">Meta actual</th>
+                {% endif %}
+                <th scope="col">Desempeño</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- <tr>
+                <td> Tasa de mortalidad mixta </td>
+                <td>  </td>
+                <td>  </td>
+                <td> 
+                     
+                </td>
+            </tr>
+            <tr>
+                <td> Tasa de mortalidad machos </td>
+                <td>  </td>
+                <td>  </td>
+                <td>  </td>
+            </tr>
+            <tr>
+                <td> Tasa de mortalidad hembras </td>
+                <td>  </td>
+                <td>  </td>
+                <td>  </td>
+            </tr> -->
+            <tr>
+                <td> Aves mixtos</td>
+                <td> {{mixto_aves_final}} </td>
+                <td> {{objetivo_aves_actual_mixto}} </td>
+                <td> 
+                    {% if objetivo_aves_actual_mixto > mixto_aves_final  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif mixto_aves_final > objetivo_aves_actual_mixto  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td> Aves machos  </td>
+                <td> {{machos_aves_final}} </td>
+                <td> {{objetivo_aves_actual_machos}} </td>
+                <td> 
+                    {% if objetivo_aves_actual_machos > machos_aves_final  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif machos_aves_final > objetivo_aves_actual_machos  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %}  
+                </td>
+            </tr>
+            <tr>
+                <td> Aves hembras </td>
+                <td> {{hembras_aves_final}} </td>
+                <td>  {{objetivo_aves_actual_hembras}}</td>
+                <td> 
+                    {% if objetivo_aves_actual_hembras > hembras_aves_final  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif hembras_aves_final > objetivo_aves_actual_hembras  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %}   
+                </td>
+            </tr>
+            <tr>
+                <td> Peso mixto </td>
+                <td> {{mixto_peso_final}} </td>
+                <td> {{objetivo_peso_actual_mixto}} </td>
+                <td> 
+                    {% if objetivo_peso_actual_mixto > mixto_peso_final  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif mixto_peso_final > objetivo_peso_actual_mixto  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td> Peso machos </td>
+                <td> {{machos_peso_final}} </td>
+                <td> {{objetivo_peso_actual_machos}} </td>
+                <td> 
+                    {% if objetivo_peso_actual_machos > machos_peso_final  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif machos_peso_final > objetivo_peso_actual_machos  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td> Peso hembras </td>
+                <td> {{hembras_peso_final}} </td>
+                <td> {{objetivo_peso_actual_hembras}} </td>
+                <td> 
+                    {% if objetivo_peso_actual_hembras > hembras_peso_final  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif hembras_peso_final > objetivo_peso_actual_hembras  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td> CA mixto </td>
+                <td> {{mixto_CA_final}} </td>
+                <td> {{objetivo_conversion_actual_mixto}} </td>
+                <td> 
+                    {% if objetivo_conversion_actual_mixto > mixto_CA_final  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif mixto_CA_final > objetivo_conversion_actual_mixto  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td> CA machos </td>
+                <td> {{machos_CA_final}} </td>
+                <td> {{objetivo_conversion_actual_machos}} </td>
+                <td> 
+                    {% if objetivo_conversion_actual_machos > machos_CA_final  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif machos_CA_final > objetivo_conversion_actual_machos  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td> CA hembras </td>
+                <td> {{hembras_CA_final}} </td>
+                <td> {{objetivo_conversion_actual_hembras}} </td>
+                <td> 
+                    {% if objetivo_conversion_actual_hembras > hembras_CA_final  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif hembras_CA_final > objetivo_conversion_actual_hembras  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %} 
+                </td>
+            </tr>
+            <tr>
+                <td> IP </td>
+                <td> {{ultimo_ip_usuario}} </td>
+                <td> 100 </td>
+                <td> 
+                    {% if 85 > ultimo_ip_usuario  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif ultimo_ip_usuario > 100  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %}  
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>
+
+
+{% endblock content %}

@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserModel
 from django import forms
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm
 
 class UserCreateForm(UserCreationForm):
     username = forms.CharField(label='Nombre de usuario', min_length=5, max_length=150)
@@ -32,16 +33,18 @@ class UserCreateForm(UserCreationForm):
         return user """
 
 
-class AuthenticationDropdown(forms.Form):
-    username = forms.ChoiceField(label='Nombre de usuario')
+class AuthenticationDropdown(AuthenticationForm):
+    CHOISES = []
+    for us in User.objects.all():
+        if us.username != 'admin':
+            a =(us.username, f"{us.first_name} {us.last_name}")
+            CHOISES.append(a)
+
+    username = forms.ChoiceField(label='Nombre de usuario', choices = CHOISES)
     password = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
 
-    def __init__(self, *args, **kwargs):
-        super(AuthenticationDropdown, self).__init__(*args, **kwargs)
-        for us in User.objects.all():
-            choice = []
-            choice.append(us.get_username())
-        self.username.choices = choice
+    
+
 
 
         
