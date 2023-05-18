@@ -181,22 +181,45 @@
     <div class="container text-center">
         <div class="row m-2">
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">Meta final CA mixto: {{ objetivo_conversion_final_mixto}} </button>
+                <button class="btn btn-outline-success btn-m"><b>CA final mixto: {{ mixto_CA_final}}</b></button>
             </div>
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">CA final mixto: {{ mixto_CA_final}}</button>
+              <button class="btn btn-outline-success btn-m"><b>Meta CA mixto: {{ objetivo_conversion_final_mixto}}</b> </button>
             </div>
+            
         </div>
-        {% if ultima_semana_ciclo_alimento != 7 %}
+        {% if ultima_semana_ciclo_alimento != 6 %}
             <div class="row m-2">
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-lg">Meta actual CA mixto: {{objetivo_conversion_actual_mixto}} </button>
+                    <button class="btn btn-outline-primary btn-m"><b>CA actual mixto: {{ mixto_CA_final}}</b></button>
                 </div>
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-lg">CA actual mixto: {{ mixto_CA_final}}</button>
+                    <button class="btn btn-outline-primary btn-m"><b>Meta actual CA mixto: {{objetivo_conversion_actual_mixto}}</b> </button>
                 </div>
+                
             </div>
         {% endif %}
+        <div class="row m-2">
+            <div class="col">
+            </div>
+            <div class="col">
+                {% if objetivo_conversion_final_mixto > mixto_CA_final  %}
+                    {% for obj in regular %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% elif mixto_CA_final > objetivo_conversion_final_mixto  %}
+                    {% for obj in excelente %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% else %}
+                    {% for obj in bueno %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% endif %}
+            </div>
+            <div class="col">
+            </div>
+        </div>
     </div>
     <h5> </h5>    
         
@@ -213,22 +236,45 @@
     <div class="container text-center">
         <div class="row m-2">
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">Meta final CA machos: {{ objetivo_conversion_final_machos}} </button>
+                <button class="btn btn-outline-success btn-m"><b>CA final machos: {{ machos_CA_final}}</b></button>
             </div>
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">CA final machos: {{ machos_CA_final}}</button>
+                <button class="btn btn-outline-success btn-m"><b>Meta CA machos: {{ objetivo_conversion_final_machos}} </b></button>
             </div>
+            
         </div>
-        {% if ultima_semana_ciclo_alimento != 7 %}
+        {% if ultima_semana_ciclo_alimento != 6 %}
             <div class="row m-2">
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-lg">Meta actual CA machos: {{objetivo_conversion_actual_machos}} </button>
+                    <button class="btn btn-outline-primary btn-m"><b>CA actual machos: {{ machos_CA_final}}</b></button>
                 </div>
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-lg">CA actual machos: {{ machos_CA_final}}</button>
+                    <button class="btn btn-outline-primary btn-m"><b>Meta actual CA machos: {{objetivo_conversion_actual_machos}}</b> </button>
                 </div>
+                
             </div>
         {% endif %}
+        <div class="row m-2">
+            <div class="col">
+            </div>
+            <div class="col">
+                {% if objetivo_conversion_final_machos > machos_CA_final  %}
+                    {% for obj in regular %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% elif machos_CA_final > objetivo_conversion_final_machos  %}
+                    {% for obj in excelente %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% else %}
+                    {% for obj in bueno %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% endif %}
+            </div>
+            <div class="col">
+            </div>
+        </div>
     </div> 
     <h5> </h5>
 </div>
@@ -242,22 +288,45 @@
     <div class="container text-center">
         <div class="row m-2">
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">Meta final CA hembras: {{ objetivo_conversion_final_hembras}} </button>
+                <button class="btn btn-outline-success btn-m"><b>CA final hembras: {{ hembras_CA_final}}</b></button>
             </div>
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">CA final hembras: {{ hembras_CA_final}}</button>
+                <button class="btn btn-outline-success btn-m"><b>Meta CA hembras: {{ objetivo_conversion_final_hembras}} </b></button>
             </div>
+            
         </div>
-        {% if ultima_semana_ciclo_alimento != 7 %}
+        {% if ultima_semana_ciclo_alimento != 6 %}
             <div class="row m-2">
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-lg">Meta actual CA hembras: {{objetivo_conversion_actual_hembras}} </button>
+                    <button class="btn btn-outline-primary btn-m"><b>CA actual hembras: {{ hembras_CA_final}}</b></button>
                 </div>
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-lg">CA actual hembras: {{ hembras_CA_final}}</button>
+                    <button class="btn btn-outline-primary btn-m"><b>Meta actual CA hembras: {{objetivo_conversion_actual_hembras}}</b> </button>
                 </div>
+                
             </div>
         {% endif %}
+        <div class="row m-2">
+            <div class="col">
+            </div>
+            <div class="col">
+                {% if objetivo_conversion_final_hembras > hembras_CA_final  %}
+                    {% for obj in regular %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% elif hembras_CA_final > objetivo_conversion_final_hembras  %}
+                    {% for obj in excelente %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% else %}
+                    {% for obj in bueno %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% endif %}
+            </div>
+            <div class="col">
+            </div>
+        </div>
     </div>    
     <h5> </h5>
 </div>

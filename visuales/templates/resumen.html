@@ -20,63 +20,23 @@
 <div class="card mb-3 text-center m-2">
     <table class="table table-striped align-middle">
         <thead>
-            <tr>
+            <tr class="table-secondary">
                 <th scope="col">Nombre de la medida</th>
                 {% if ultimo_ciclo_mortalidad == ultimo_ciclo_alimento and ultima_semana_ciclo_mortalidad == ultima_semana_ciclo_alimento%}
-                    {% if ultima_semana_ciclo_alimento == 7 %}
+                    {% if ultima_semana_ciclo_alimento == 6 %}
                         <th scope="col">Valor final</th>
-                        <th scope="col">Meta final</th>
-                    {% endif %}    
-                {% else %}
+                        <th scope="col">Meta final</th> 
+                    {% else %}
                     <th scope="col">Valor actual</th>
                     <th scope="col">Meta actual</th>
+                    {% endif %}
                 {% endif %}
                 <th scope="col">Desempeño</th>
             </tr>
         </thead>
-        <tbody>
-            <!-- <tr>
-                <td> Tasa de mortalidad mixta </td>
-                <td>  </td>
-                <td>  </td>
-                <td> 
-                     
-                </td>
-            </tr>
-            <tr>
-                <td> Tasa de mortalidad machos </td>
-                <td>  </td>
-                <td>  </td>
-                <td>  </td>
-            </tr>
-            <tr>
-                <td> Tasa de mortalidad hembras </td>
-                <td>  </td>
-                <td>  </td>
-                <td>  </td>
-            </tr> -->
-            <tr>
-                <td> Aves mixtos</td>
-                <td> {{mixto_aves_final}} </td>
-                <td> {{objetivo_aves_actual_mixto}} </td>
-                <td> 
-                    {% if objetivo_aves_actual_mixto > mixto_aves_final  %}
-                        {% for obj in regular %}
-                            <img src="{{ obj.image.url }}" width="80" >
-                        {% endfor %} 
-                    {% elif mixto_aves_final > objetivo_aves_actual_mixto  %}
-                        {% for obj in excelente %}
-                            <img src="{{ obj.image.url }}" width="80" >
-                        {% endfor %} 
-                    {% else %}
-                        {% for obj in bueno %}
-                            <img src="{{ obj.image.url }}" width="80" >
-                        {% endfor %} 
-                    {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <td> Aves machos  </td>
+        <tbody class="table-group-divider">
+                        <tr>
+                <td> Saldo de Aves machos  </td>
                 <td> {{machos_aves_final}} </td>
                 <td> {{objetivo_aves_actual_machos}} </td>
                 <td> 
@@ -96,7 +56,7 @@
                 </td>
             </tr>
             <tr>
-                <td> Aves hembras </td>
+                <td> Saldo de Aves hembras </td>
                 <td> {{hembras_aves_final}} </td>
                 <td>  {{objetivo_aves_actual_hembras}}</td>
                 <td> 
@@ -115,16 +75,18 @@
                     {% endif %}   
                 </td>
             </tr>
-            <tr>
-                <td> Peso mixto </td>
-                <td> {{mixto_peso_final}} </td>
-                <td> {{objetivo_peso_actual_mixto}} </td>
+        </tbody>        
+        <tfoot class="table-group-divider">
+            <tr class="table-secondary">
+                <td> Saldo de Aves mixtos</td>
+                <td> {{mixto_aves_final}} </td>
+                <td> {{objetivo_aves_actual_mixto}} </td>
                 <td> 
-                    {% if objetivo_peso_actual_mixto > mixto_peso_final  %}
+                    {% if objetivo_aves_actual_mixto > mixto_aves_final  %}
                         {% for obj in regular %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
-                    {% elif mixto_peso_final > objetivo_peso_actual_mixto  %}
+                    {% elif mixto_aves_final > objetivo_aves_actual_mixto  %}
                         {% for obj in excelente %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
@@ -135,6 +97,115 @@
                     {% endif %}
                 </td>
             </tr>
+        </tr>
+    </tfoot>
+</table>
+</div>
+
+<div class="card mb-3 text-center m-2"> 
+<table class="table table-striped align-middle">
+    <thead>
+        <tr class="table-secondary">
+            <th scope="col">Nombre de la medida</th>
+            {% if ultimo_ciclo_mortalidad == ultimo_ciclo_alimento and ultima_semana_ciclo_mortalidad == ultima_semana_ciclo_alimento%}
+                {% if ultima_semana_ciclo_alimento == 6 %}
+                    <th scope="col">Valor final</th>
+                    <th scope="col">Meta final</th> 
+                {% else %}
+                <th scope="col">Valor actual</th>
+                <th scope="col">Meta actual</th>
+                {% endif %}
+            {% endif %}
+            <th scope="col">Desempeño</th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        <tr>
+
+            
+            <tr>
+                <td> Tasa de mortalidad machos </td>
+                <td> {{machos_porcentaje_actual}}% </td>
+                <td> 5% </td>
+                <td> 
+                    {% if machos_porcentaje_actual > 5  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif 4 > machos_porcentaje_actual  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %} 
+                </td>
+            </tr>
+            <tr>
+                <td> Tasa de mortalidad hembras </td>
+                <td> {{hembras_porcentaje_actual}}% </td>
+                <td> 5% </td>
+                <td> 
+                    {% if hembras_porcentaje_actual > 5  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif 4 > hembras_porcentaje_actual  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %} 
+                </td>
+            </tr>
+        </tbody>
+        <tfoot class="table-group-divider">
+            <tr class="table-secondary">
+                <td> Tasa de mortalidad mixta </td>
+                <td> {{mixto_porcentaje_actual}}%</td>
+                <td> 5% </td>
+                <td> 
+                    {% if mixto_porcentaje_actual > 5  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif 4 > mixto_porcentaje_actual  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %} 
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<div class="card mb-3 text-center m-2"> 
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr class="table-secondary">
+                <th scope="col">Nombre de la medida</th>
+                {% if ultimo_ciclo_mortalidad == ultimo_ciclo_alimento and ultima_semana_ciclo_mortalidad == ultima_semana_ciclo_alimento%}
+                    {% if ultima_semana_ciclo_alimento == 6 %}
+                        <th scope="col">Valor final</th>
+                        <th scope="col">Meta final</th> 
+                    {% else %}
+                    <th scope="col">Valor actual</th>
+                    <th scope="col">Meta actual</th>
+                    {% endif %}
+                {% endif %}
+                <th scope="col">Desempeño</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
             <tr>
                 <td> Peso machos </td>
                 <td> {{machos_peso_final}} </td>
@@ -175,16 +246,18 @@
                     {% endif %}
                 </td>
             </tr>
-            <tr>
-                <td> CA mixto </td>
-                <td> {{mixto_CA_final}} </td>
-                <td> {{objetivo_conversion_actual_mixto}} </td>
+        </tbody>
+        <tfoot class="table-group-divider">
+            <tr class="table-secondary">
+                <td > Peso mixto </td>
+                <td> {{mixto_peso_final}} </td>
+                <td> {{objetivo_peso_actual_mixto}} </td>
                 <td> 
-                    {% if objetivo_conversion_actual_mixto > mixto_CA_final  %}
+                    {% if objetivo_peso_actual_mixto > mixto_peso_final  %}
                         {% for obj in regular %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
-                    {% elif mixto_CA_final > objetivo_conversion_actual_mixto  %}
+                    {% elif mixto_peso_final > objetivo_peso_actual_mixto  %}
                         {% for obj in excelente %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
@@ -195,6 +268,27 @@
                     {% endif %}
                 </td>
             </tr>
+        </tfoot>
+    </table>
+</div>
+<div class="card mb-3 text-center m-2"> 
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr class="table-secondary">
+                <th scope="col">Nombre de la medida</th>
+                {% if ultimo_ciclo_mortalidad == ultimo_ciclo_alimento and ultima_semana_ciclo_mortalidad == ultima_semana_ciclo_alimento%}
+                    {% if ultima_semana_ciclo_alimento == 6 %}
+                        <th scope="col">Valor final</th>
+                        <th scope="col">Meta final</th> 
+                    {% else %}
+                    <th scope="col">Valor actual</th>
+                    <th scope="col">Meta actual</th>
+                    {% endif %}
+                {% endif %}
+                <th scope="col">Desempeño</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
             <tr>
                 <td> CA machos </td>
                 <td> {{machos_CA_final}} </td>
@@ -234,17 +328,60 @@
                         {% endfor %} 
                     {% endif %} 
                 </td>
-            </tr>
-            <tr>
-                <td> IP </td>
-                <td> {{ultimo_ip_usuario}} </td>
-                <td> 100 </td>
+            </tr> 
+        </tbody>
+        <tfoot class="table-group-divider">
+            <tr class="table-secondary">
+                <td> CA mixto </td>
+                <td> {{mixto_CA_final}} </td>
+                <td> {{objetivo_conversion_actual_mixto}} </td>
                 <td> 
-                    {% if 85 > ultimo_ip_usuario  %}
+                    {% if objetivo_conversion_actual_mixto > mixto_CA_final  %}
                         {% for obj in regular %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
-                    {% elif ultimo_ip_usuario > 100  %}
+                    {% elif mixto_CA_final > objetivo_conversion_actual_mixto  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %}
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<div class="card mb-3 text-center m-2"> 
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr class="table-secondary">
+                <th scope="col">Nombre de la medida</th>
+                {% if ultimo_ciclo_mortalidad == ultimo_ciclo_alimento and ultima_semana_ciclo_mortalidad == ultima_semana_ciclo_alimento%}
+                    {% if ultima_semana_ciclo_alimento == 6 %}
+                        <th scope="col">Valor final</th>
+                        <th scope="col">Meta final</th> 
+                    {% else %}
+                    <th scope="col">Valor actual</th>
+                    <th scope="col">Meta actual</th>
+                    {% endif %}
+                {% endif %}
+                <th scope="col">Desempeño</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr>
+                <td> IP machos</td>
+                <td> {{ultimo_ip_usuario_machos}} </td>
+                <td> 100 </td>
+                <td> 
+                    {% if 85 > ultimo_ip_usuario_machos  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif ultimo_ip_usuario_machos > 100  %}
                         {% for obj in excelente %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
@@ -255,8 +392,51 @@
                     {% endif %}  
                 </td>
             </tr>
+            <tr>
+                <td> IP hembras</td>
+                <td> {{ultimo_ip_usuario_hembras}} </td>
+                <td> 100 </td>
+                <td> 
+                    {% if 85 > ultimo_ip_usuario_hembras  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif ultimo_ip_usuario_hembras > 100  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %}  
+                </td>
+            </tr>
+
         </tbody>
 
+        <tfoot class="table-group-divider">
+            <tr class="table-secondary">
+                <td> IP mixto </td>
+                <td> {{ultimo_ip_usuario_mixto}} </td>
+                <td> 100 </td>
+                <td> 
+                    {% if 85 > ultimo_ip_usuario_mixto  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif ultimo_ip_usuario_mixto > 100  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %}  
+                </td>
+            </tr>
+        </tfoot>
     </table>
 </div>
 

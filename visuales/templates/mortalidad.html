@@ -72,7 +72,7 @@
                     pointHitRadius : 15,
                 },{
                     type: 'line',
-                    label: 'Meta mortalidad',
+                    label: 'Meta de mortalidad',
                     fill: false,
                     data: [{% for objetiv in objetivo_mortalidad %} {{objetiv}}*100,{% endfor %}],
                     borderColor: '#ff6384',
@@ -120,7 +120,7 @@
                     pointHitRadius : 15,
                 },{
                     type: 'line',
-                    label: 'Meta mortalidad',
+                    label: 'Meta de mortalidad',
                     fill: false,
                     data: [{% for objetiv in objetivo_mortalidad %} {{objetiv}}*100,{% endfor %}],
                     borderColor: '#ff6384',
@@ -180,31 +180,53 @@
     <div class="container text-center">
         <canvas id="grafico_mortalidad_mixto" width="300" height="300"></canvas>
     </div>
+
     <div class="container text-center">
         <div class="row m-2">
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">Meta final de Aves: {{ objetivo_aves_final_mixto}} </button>
+              <button class="btn btn-outline-success btn-sm"> <b>Aves iniciales: {{mixto_aves_inicial}} </b></button>
             </div>
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">Aves iniciales: {{ mixto_aves_inicial}}</button>
+              <button class="btn btn-outline-success btn-sm"><b>Aves actuales: {{mixto_aves_final}}</b></button>
             </div>
+            <div class="col">
+                <button class="btn btn-outline-success btn-sm"><b>Meta aves finales: {{ objetivo_aves_final_mixto}}</b></button>
+              </div>
         </div>
         <div class="row m-2">
             <div class="col">
-                {% if ultima_semana_ciclo_mortalidad == 7 %}
-                <button class="btn btn-outline-primary btn-lg" disabled>Meta actual de Aves: {{objetivo_aves_actual_mixto}} </button>
-                {% elif ultima_semana_ciclo_mortalidad != 7 %}
-                <button class="btn btn-outline-primary btn-lg">Meta actual de Aves: {{objetivo_aves_actual_mixto}} </button>
+                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad actual: {{mixto_porcentaje_actual}}% </b></button>
+            </div>
+            <div class="col">
+                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad meta: 5%</b></button>
+            </div>
+            
+        </div>
+        <div class="row m-2">
+            <div class="col">
+            </div>
+            <div class="col">
+                {% if mixto_porcentaje_actual > 5  %}
+                    {% for obj in regular %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% elif 4 > mixto_porcentaje_actual  %}
+                    {% for obj in excelente %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% else %}
+                    {% for obj in bueno %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
                 {% endif %}
             </div>
             <div class="col">
-                <button class="btn btn-outline-primary btn-lg">Aves actuales: {{ mixto_aves_final}}</button>
             </div>
         </div>
+                    
     </div>    
-    <h5> </h5>    
-        
-    
+    <h5> </h5>
+
 
 </div>
 
@@ -214,29 +236,53 @@
     <div class="container text-center">
         <canvas id="grafico_mortalidad_machos" width="300" height="300"></canvas>
     </div>
+
     <div class="container text-center">
         <div class="row m-2">
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">Meta final de Aves: {{ objetivo_aves_final_machos}} </button>
+              <button class="btn btn-outline-success btn-sm"><b>Aves iniciales: {{machos_aves_inicial}}</b> </button>
             </div>
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">Aves iniciales: {{ machos_aves_inicial}}</button>
+              <button class="btn btn-outline-success btn-sm"><b>Aves actuales: {{machos_aves_final}}</b></button>
             </div>
+            <div class="col">
+                <button class="btn btn-outline-success btn-sm"><b>Meta aves finales: {{ objetivo_aves_final_machos}}</b></button>
+              </div>
         </div>
         <div class="row m-2">
             <div class="col">
-                {% if ultima_semana_ciclo_mortalidad == 7 %}
-                    <button class="btn btn-outline-primary btn-lg" disabled>Meta actual de Aves: {{objetivo_aves_actual_machos}} </button>
-                {% elif ultima_semana_ciclo_mortalidad != 7 %}
-                    <button class="btn btn-outline-primary btn-lg">Meta actual de Aves: {{objetivo_aves_actual_machos}} </button>
+                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad actual: {{machos_porcentaje_actual}}% </b></button>
+            </div>
+            <div class="col">
+                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad meta: 5%</b></button>
+            </div>
+            
+        </div>
+        <div class="row m-2">
+            <div class="col">
+            </div>
+            <div class="col">
+                {% if machos_porcentaje_actual > 5  %}
+                    {% for obj in regular %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% elif 4 > machos_porcentaje_actual  %}
+                    {% for obj in excelente %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% else %}
+                    {% for obj in bueno %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
                 {% endif %}
             </div>
             <div class="col">
-                <button class="btn btn-outline-primary btn-lg">Aves actuales: {{ machos_aves_final}}</button>
             </div>
         </div>
+                    
     </div>    
     <h5> </h5>
+
 </div>
 
 <div class="card mb-3 text-center m-2">
@@ -250,24 +296,46 @@
     <div class="container text-center">
         <div class="row m-2">
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">Meta final de Aves: {{objetivo_aves_final_hembras}} </button>
+              <button class="btn btn-outline-success btn-sm"><b>Aves iniciales: {{hembras_aves_inicial}}</b> </button>
             </div>
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">Aves iniciales: {{ hembras_aves_inicial}}</button>
+              <button class="btn btn-outline-success btn-sm"><b>Aves actuales: {{hembras_aves_final}}</b></button>
             </div>
+            <div class="col">
+                <button class="btn btn-outline-success btn-sm"><b>Meta aves finales: {{ objetivo_aves_final_hembras}}</b></button>
+              </div>
         </div>
         <div class="row m-2">
             <div class="col">
-                {% if ultima_semana_ciclo_mortalidad == 7 %}
-                    <button class="btn btn-outline-primary btn-lg" disabled>Meta actual de Aves: {{objetivo_aves_actual_hembras}} </button>
-                {% elif ultima_semana_ciclo_mortalidad != 7 %}
-                    <button class="btn btn-outline-primary btn-lg">Meta actual de Aves: {{objetivo_aves_actual_hembras}} </button>
+                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad actual: {{hembras_porcentaje_actual}}% </b></button>
+            </div>
+            <div class="col">
+                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad meta: 5%</b></button>
+            </div>
+            
+        </div>
+        <div class="row m-2">
+            <div class="col">
+            </div>
+            <div class="col">
+                {% if hembras_porcentaje_actual > 5  %}
+                    {% for obj in regular %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% elif 4 > hembras_porcentaje_actual  %}
+                    {% for obj in excelente %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% else %}
+                    {% for obj in bueno %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
                 {% endif %}
             </div>
             <div class="col">
-                <button class="btn btn-outline-primary btn-lg">Aves actuales: {{ hembras_aves_final}}</button>
             </div>
         </div>
+                    
     </div>    
     <h5> </h5>
 </div>

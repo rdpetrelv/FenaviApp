@@ -172,7 +172,7 @@
 <!-- displaying the chart -->
 <!-- you can also play around with the width and height to increase or decrease the chart size -->
 
-{{mixto_peso_semanas}}
+
 
 <div class="card mb-3 text-center m-2">
     <h1></h1>
@@ -181,30 +181,52 @@
         <canvas id="grafico_peso_mixto" width="300" height="300"></canvas>
     </div>
     
+
+
     <div class="container text-center">
         <div class="row m-2">
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">Meta peso final: {{ objetivo_peso_final_mixto}} </button>
+                <button class="btn btn-outline-success btn-m"><b>Peso final mixto: {{  mixto_peso_final}}</b></button>
             </div>
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">Peso final mixto: {{  mixto_peso_final}}</button>
+                <button class="btn btn-outline-success btn-m"><b>Meta peso final: {{ objetivo_peso_final_mixto}} </b></button>
             </div>
+            
         </div>
-        {% if ultima_semana_ciclo_alimento != 7 %}
+        {% if ultima_semana_ciclo_alimento != 6 %}
             <div class="row m-2">
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-lg">Meta actual de peso: {{objetivo_peso_actual_mixto}} </button>
+                    <button class="btn btn-outline-primary btn-m"><b>Peso actual mixto: {{  mixto_peso_final}}</b></button>
                 </div>
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-lg">Peso actual mixto: {{  mixto_peso_final}}</button>
+                    <button class="btn btn-outline-primary btn-m"><b>Meta actual de peso: {{objetivo_peso_actual_mixto}} </b></button>
                 </div>
+                
             </div>
         {% endif %}
+        <div class="row m-2">
+            <div class="col">
+            </div>
+            <div class="col">
+                {% if objetivo_peso_final_mixto > mixto_peso_final  %}
+                    {% for obj in regular %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% elif mixto_peso_final > objetivo_peso_final_mixto %}
+                    {% for obj in excelente %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% else %}
+                    {% for obj in bueno %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% endif %}
+            </div>
+            <div class="col">
+            </div>
+        </div>
     </div> 
-    <h5> </h5>    
-        
-    
-
+    <h5> </h5> 
 </div>
 
 <div class="card mb-3 text-center m-2">
@@ -216,22 +238,45 @@
     <div class="container text-center">
         <div class="row m-2">
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">Meta peso final: {{ objetivo_peso_final_machos}} </button>
+                <button class="btn btn-outline-success btn-m"><b>Peso final machos: {{  machos_peso_final}}</b></button>
             </div>
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">Peso final machos: {{  machos_peso_final}}</button>
+                <button class="btn btn-outline-success btn-m"><b>Meta peso final: {{ objetivo_peso_final_machos}}</b> </button>
             </div>
+            
         </div>
-        {% if ultima_semana_ciclo_alimento != 7 %}
+        {% if ultima_semana_ciclo_alimento != 6 %}
             <div class="row m-2">
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-lg">Meta actual de peso: {{objetivo_peso_actual_machos}} </button>
+                    <button class="btn btn-outline-primary btn-m"><b>Peso actual machos: {{  machos_peso_final}}</b></button>
                 </div>
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-lg">Peso actual machos: {{  machos_peso_final}}</button>
+                    <button class="btn btn-outline-primary btn-m"><b>Meta actual de peso: {{objetivo_peso_actual_machos}} </b></button>
                 </div>
+                
             </div>
         {% endif %}
+        <div class="row m-2">
+            <div class="col">
+            </div>
+            <div class="col">
+                {% if objetivo_peso_final_machos > machos_peso_final  %}
+                    {% for obj in regular %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% elif machos_peso_final > objetivo_peso_final_machos %}
+                    {% for obj in excelente %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% else %}
+                    {% for obj in bueno %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% endif %}
+            </div>
+            <div class="col">
+            </div>
+        </div>
     </div> 
     <h5> </h5>
 </div>
@@ -245,23 +290,44 @@
     <div class="container text-center">
         <div class="row m-2">
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">Meta peso final: {{ objetivo_peso_final_hembras}} </button>
+                <button class="btn btn-outline-success btn-m"><b>Peso final hembras: {{  hembras_peso_final}}</b></button>
             </div>
             <div class="col">
-              <button class="btn btn-outline-success btn-lg">Peso final hembras: {{  hembras_peso_final}}</button>
+                <button class="btn btn-outline-success btn-m"><b>Meta peso final: {{ objetivo_peso_final_hembras}} </b></button>
             </div>
+            
         </div>
-        {% if ultima_semana_ciclo_alimento != 7 %}
+        {% if ultima_semana_ciclo_alimento != 6 %}
             <div class="row m-2">
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-lg">Meta actual de peso: {{objetivo_peso_actual_hembras}} </button>
+                    <button class="btn btn-outline-primary btn-m"><b>Peso actual hembras: {{  hembras_peso_final}}</b></button>
                 </div>
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-lg">Peso actual hembras: {{  hembras_peso_final}}</button>
+                    <button class="btn btn-outline-primary btn-m"><b>Meta actual de peso: {{objetivo_peso_actual_hembras}} </b></button>
                 </div>
             </div>
         {% endif %}
-        
+        <div class="row m-2">
+            <div class="col">
+            </div>
+            <div class="col">
+                {% if objetivo_peso_final_hembras > hembras_peso_final  %}
+                    {% for obj in regular %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% elif hembras_peso_final > objetivo_peso_final_hembras  %}
+                    {% for obj in excelente %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% else %}
+                    {% for obj in bueno %}
+                        <img src="{{ obj.image.url }}" width="80" >
+                    {% endfor %} 
+                {% endif %}
+            </div>
+            <div class="col">
+            </div>
+        </div>
     </div>  
     <h5> </h5>
 </div>
