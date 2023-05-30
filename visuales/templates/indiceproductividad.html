@@ -5,8 +5,8 @@
     // jquery function
 
     $(document).ready(function(){
-        var Chart_ip_evolucion_ultimos_ciclosCtx = document.getElementById('Chart_ip_evolucion_ultimos_ciclos_machos').getContext('2d');
-        var Chart_ip_evolucion_ultimos_ciclos = new Chart(Chart_ip_evolucion_ultimos_ciclosCtx, {
+        var Chart_ip_evolucion_ultimos_ciclos_machosCtx = document.getElementById('Chart_ip_evolucion_ultimos_ciclos_machos').getContext('2d');
+        var Chart_ip_evolucion_ultimos_ciclos_machos = new Chart(Chart_ip_evolucion_ultimos_ciclos_machosCtx, {
             type: 'line',
             data: {
                 labels: [ {% for ciclo in ciclos_posibles %} {{ciclo}}, {%endfor%}], //loop through queryset, 
@@ -60,8 +60,8 @@
             }
         });
 
-        var Chart_ip_evolucion_ultimos_ciclosCtx = document.getElementById('Chart_ip_evolucion_ultimos_ciclos_mixto').getContext('2d');
-        var Chart_ip_evolucion_ultimos_ciclos = new Chart(Chart_ip_evolucion_ultimos_ciclosCtx, {
+        var Chart_ip_evolucion_ultimos_ciclos_mixtoCtx = document.getElementById('Chart_ip_evolucion_ultimos_ciclos_mixto').getContext('2d');
+        var Chart_ip_evolucion_ultimos_ciclos_mixto = new Chart(Chart_ip_evolucion_ultimos_ciclos_mixtoCtx, {
             type: 'line',
             data: {
                 labels: [ {% for ciclo in ciclos_posibles %} {{ciclo}}, {%endfor%}], //loop through queryset, 
@@ -115,8 +115,8 @@
             }
         });
 
-        var Chart_ip_evolucion_ultimos_ciclosCtx = document.getElementById('Chart_ip_evolucion_ultimos_ciclos_hembras').getContext('2d');
-        var Chart_ip_evolucion_ultimos_ciclos = new Chart(Chart_ip_evolucion_ultimos_ciclosCtx, {
+        var Chart_ip_evolucion_ultimos_ciclos_hembrasCtx = document.getElementById('Chart_ip_evolucion_ultimos_ciclos_hembras').getContext('2d');
+        var Chart_ip_evolucion_ultimos_ciclos_hembras = new Chart(Chart_ip_evolucion_ultimos_ciclos_hembrasCtx, {
             type: 'line',
             data: {
                 labels: [ {% for ciclo in ciclos_posibles_hembras %} {{ciclo}}, {%endfor%}], //loop through queryset, 
@@ -170,8 +170,8 @@
             }
         });
 
-        var Chart_ip_comparativa_integrantesCtx = document.getElementById('Chart_ip_comparativa_machos_integrantes').getContext('2d');
-        var Chart_ip_comparativa_integrantes = new Chart(Chart_ip_comparativa_integrantesCtx, {
+        var Chart_ip_comparativa_machos_integrantesCtx = document.getElementById('Chart_ip_comparativa_machos_integrantes').getContext('2d');
+        var Chart_ip_comparativa_machos_integrantes = new Chart(Chart_ip_comparativa_machos_integrantesCtx, {
             type: 'bar',
             data: {
                 labels: [ {% for productor in productores_machos %} '{{productor}}', {%endfor%}], //loop through queryset, 
@@ -217,8 +217,8 @@
                 }
             }
         });
-        var Chart_ip_comparativa_integrantesCtx = document.getElementById('Chart_ip_comparativa_hembras_integrantes').getContext('2d');
-        var Chart_ip_comparativa_integrantes = new Chart(Chart_ip_comparativa_integrantesCtx, {
+        var Chart_ip_comparativa_hembras_integrantesCtx = document.getElementById('Chart_ip_comparativa_hembras_integrantes').getContext('2d');
+        var Chart_ip_comparativa_hembras_integrantes = new Chart(Chart_ip_comparativa_hembras_integrantesCtx, {
             type: 'bar',
             data: {
                 labels: [ {% for productor in productores_hembras %} '{{productor}}', {%endfor%}], //loop through queryset, 
@@ -249,7 +249,13 @@
                 responsive: true,
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks : {
+                            font:{
+                                weight : 'bold'
+                            },
+                            color : 'red',
+                        }
                     },
                     yAxes : [{
                         scaleLabel: {
@@ -264,14 +270,16 @@
                 }
             }
         });
-        var Chart_ip_comparativa_integrantesCtx = document.getElementById('Chart_ip_comparativa_mixto_integrantes').getContext('2d');
-        var Chart_ip_comparativa_integrantes = new Chart(Chart_ip_comparativa_integrantesCtx, {
+        labels1 = [ {% for productor in productores_mixto %} '{{productor}}', {%endfor%}];
+        
+        var Chart_ip_comparativa_mixto_integrantesCtx = document.getElementById('Chart_ip_comparativa_mixto_integrantes').getContext('2d');
+        var Chart_ip_comparativa_mixto_integrantes = new Chart(Chart_ip_comparativa_mixto_integrantesCtx, {
             type: 'bar',
             data: {
-                labels: [ {% for productor in productores_mixto %} '{{productor}}', {%endfor%}], //loop through queryset, 
+                labels: labels1, //loop through queryset, 
                 datasets: [{
                     label: 'IP ciclo actual',
-                    data: [ {% for ip in ip_productores_mixtos %} {{ip}} ,{% endfor %}],
+                    data: [ {% for ip in ip_productores_mixtos %} {{ip|floatformat:"2"}} ,{% endfor %}],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)', 
                         'rgba(54, 162, 235, 0.2)',
@@ -297,6 +305,13 @@
                 scales: {
                     y: {
                         beginAtZero: true
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                weight:'bold'
+                            }
+                        }
                     },
                     yAxes : [{
                         scaleLabel: {
@@ -328,9 +343,9 @@
 </div>
 <div class="container m-2 mb-3 mt-4">
 <h5> Hola, {{ user.first_name }} {{ user.last_name }} ! </h5>
-<h5> A continuación se muestra el índice de productividad para los ultimos 6 ciclos la comparativa con otros productores para el ciclo actual</h5>
+<h5> A continuación se muestra el índice de productividad para los ultimos 6 ciclos la comparativa con otros productores para el ciclo actual.</h5>
 </div>
-
+{{ productor }}
 <!-- displaying the chart -->
 <!-- you can also play around with the width and height to increase or decrease the chart size -->
 
@@ -368,10 +383,10 @@
     </div>
     <div class="row m-2">
         <div class="col">
-            <button class="btn btn-outline-success btn-m"><b>IP actual: {{ultimo_ip_usuario_mixto}}</b></button>
+            <button class="btn btn-outline-success btn-m"><b>IP actual: {{ultimo_ip_usuario_mixto|floatformat:"2g"}}</b></button>
         </div>
         <div class="col">
-            <button class="btn btn-outline-success btn-m"><b>Meta IP: 100 </b> </button>
+            <button class="btn btn-outline-success btn-m"><b>Meta IP: 100.00 </b> </button>
         </div>
     </div>
     <div class="row m-2">
@@ -402,10 +417,10 @@
     </div>
     <div class="row m-2">
         <div class="col">
-            <button class="btn btn-outline-success btn-m"><b>IP actual: {{ultimo_ip_usuario_machos}} </b></button>
+            <button class="btn btn-outline-success btn-m"><b>IP actual: {{ultimo_ip_usuario_machos|floatformat:"2g"}} </b></button>
         </div>
         <div class="col">
-            <button class="btn btn-outline-success btn-m"><b>Meta IP: 100 </b></button>
+            <button class="btn btn-outline-success btn-m"><b>Meta IP: 100.00 </b></button>
         </div>
     </div>
     <div class="row m-2">
@@ -436,10 +451,10 @@
     </div>
     <div class="row m-2">
         <div class="col">
-            <button class="btn btn-outline-success btn-m"><b>IP actual: {{ultimo_ip_usuario_hembras}}</b></button>
+            <button class="btn btn-outline-success btn-m"><b>IP actual: {{ultimo_ip_usuario_hembras|floatformat:"2g"}}</b></button>
         </div>
         <div class="col">
-            <button class="btn btn-outline-success btn-m"><b>Meta IP: 100 </b></button>
+            <button class="btn btn-outline-success btn-m"><b>Meta IP: 100.00 </b></button>
         </div>
     </div>
     <div class="row m-2">

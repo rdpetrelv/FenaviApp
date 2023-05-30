@@ -37,8 +37,8 @@
         <tbody class="table-group-divider">
                         <tr>
                 <td> Saldo de Aves machos  </td>
-                <td> {{machos_aves_final}} </td>
-                <td> {{objetivo_aves_actual_machos}} </td>
+                <td> {{machos_aves_final|floatformat:"g"}} </td>
+                <td> {{objetivo_aves_actual_machos|floatformat:"g"}} </td>
                 <td> 
                     {% if objetivo_aves_actual_machos > machos_aves_final  %}
                         {% for obj in regular %}
@@ -57,8 +57,8 @@
             </tr>
             <tr>
                 <td> Saldo de Aves hembras </td>
-                <td> {{hembras_aves_final}} </td>
-                <td>  {{objetivo_aves_actual_hembras}}</td>
+                <td> {{hembras_aves_final|floatformat:"g"}} </td>
+                <td>  {{objetivo_aves_actual_hembras|floatformat:"g"}}</td>
                 <td> 
                     {% if objetivo_aves_actual_hembras > hembras_aves_final  %}
                         {% for obj in regular %}
@@ -79,8 +79,8 @@
         <tfoot class="table-group-divider">
             <tr class="table-secondary">
                 <td> Saldo de Aves mixtos</td>
-                <td> {{mixto_aves_final}} </td>
-                <td> {{objetivo_aves_actual_mixto}} </td>
+                <td> {{mixto_aves_final|floatformat:"g"}} </td>
+                <td> {{objetivo_aves_actual_mixto|floatformat:"g"}} </td>
                 <td> 
                     {% if objetivo_aves_actual_mixto > mixto_aves_final  %}
                         {% for obj in regular %}
@@ -126,13 +126,13 @@
             <tr>
                 <td> Tasa de mortalidad machos </td>
                 <td> {{machos_porcentaje_actual}}% </td>
-                <td> 5% </td>
+                <td> 4.20% </td>
                 <td> 
-                    {% if machos_porcentaje_actual > 5  %}
+                    {% if machos_porcentaje_actual > 5.5  %}
                         {% for obj in regular %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
-                    {% elif 4 > machos_porcentaje_actual  %}
+                    {% elif 4.2 > machos_porcentaje_actual  %}
                         {% for obj in excelente %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
@@ -146,13 +146,13 @@
             <tr>
                 <td> Tasa de mortalidad hembras </td>
                 <td> {{hembras_porcentaje_actual}}% </td>
-                <td> 5% </td>
+                <td> 4.20% </td>
                 <td> 
-                    {% if hembras_porcentaje_actual > 5  %}
+                    {% if hembras_porcentaje_actual > 5.5  %}
                         {% for obj in regular %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
-                    {% elif 4 > hembras_porcentaje_actual  %}
+                    {% elif 4.2 > hembras_porcentaje_actual  %}
                         {% for obj in excelente %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
@@ -168,13 +168,13 @@
             <tr class="table-secondary">
                 <td> Tasa de mortalidad mixta </td>
                 <td> {{mixto_porcentaje_actual}}%</td>
-                <td> 5% </td>
+                <td> 4.20% </td>
                 <td> 
-                    {% if mixto_porcentaje_actual > 5  %}
+                    {% if mixto_porcentaje_actual > 5.5  %}
                         {% for obj in regular %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
-                    {% elif 4 > mixto_porcentaje_actual  %}
+                    {% elif 4.2 > mixto_porcentaje_actual  %}
                         {% for obj in excelente %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
@@ -207,9 +207,9 @@
         </thead>
         <tbody class="table-group-divider">
             <tr>
-                <td> Peso machos </td>
-                <td> {{machos_peso_final}} </td>
-                <td> {{objetivo_peso_actual_machos}} </td>
+                <td> Peso machos (g)</td>
+                <td> {{machos_peso_final|floatformat:"g"}} </td>
+                <td> {{objetivo_peso_actual_machos|floatformat:"g"}} </td>
                 <td> 
                     {% if objetivo_peso_actual_machos > machos_peso_final  %}
                         {% for obj in regular %}
@@ -227,9 +227,9 @@
                 </td>
             </tr>
             <tr>
-                <td> Peso hembras </td>
-                <td> {{hembras_peso_final}} </td>
-                <td> {{objetivo_peso_actual_hembras}} </td>
+                <td> Peso hembras (g) </td>
+                <td> {{hembras_peso_final|floatformat:"g"}} </td>
+                <td> {{objetivo_peso_actual_hembras|floatformat:"g"}} </td>
                 <td> 
                     {% if objetivo_peso_actual_hembras > hembras_peso_final  %}
                         {% for obj in regular %}
@@ -249,9 +249,9 @@
         </tbody>
         <tfoot class="table-group-divider">
             <tr class="table-secondary">
-                <td > Peso mixto </td>
-                <td> {{mixto_peso_final}} </td>
-                <td> {{objetivo_peso_actual_mixto}} </td>
+                <td > Peso mixto (g) </td>
+                <td> {{mixto_peso_final|floatformat:"g"}} </td>
+                <td> {{objetivo_peso_actual_mixto|floatformat:"g"}} </td>
                 <td> 
                     {% if objetivo_peso_actual_mixto > mixto_peso_final  %}
                         {% for obj in regular %}
@@ -291,8 +291,8 @@
         <tbody class="table-group-divider">
             <tr>
                 <td> CA machos </td>
-                <td> {{machos_CA_final}} </td>
-                <td> {{objetivo_conversion_actual_machos}} </td>
+                <td> {{machos_CA_final|floatformat:"2g"}} </td>
+                <td> {{objetivo_conversion_actual_machos|floatformat:"2g"}} </td>
                 <td> 
                     {% if objetivo_conversion_actual_machos > machos_CA_final  %}
                         {% for obj in regular %}
@@ -311,8 +311,8 @@
             </tr>
             <tr>
                 <td> CA hembras </td>
-                <td> {{hembras_CA_final}} </td>
-                <td> {{objetivo_conversion_actual_hembras}} </td>
+                <td> {{hembras_CA_final|floatformat:"2g"}} </td>
+                <td> {{objetivo_conversion_actual_hembras|floatformat:"2g"}} </td>
                 <td> 
                     {% if objetivo_conversion_actual_hembras > hembras_CA_final  %}
                         {% for obj in regular %}
@@ -333,8 +333,8 @@
         <tfoot class="table-group-divider">
             <tr class="table-secondary">
                 <td> CA mixto </td>
-                <td> {{mixto_CA_final}} </td>
-                <td> {{objetivo_conversion_actual_mixto}} </td>
+                <td> {{mixto_CA_final|floatformat:"2g"}} </td>
+                <td> {{objetivo_conversion_actual_mixto|floatformat:"2g"}} </td>
                 <td> 
                     {% if objetivo_conversion_actual_mixto > mixto_CA_final  %}
                         {% for obj in regular %}
@@ -375,7 +375,7 @@
             <tr>
                 <td> IP machos</td>
                 <td> {{ultimo_ip_usuario_machos}} </td>
-                <td> 100 </td>
+                <td> 100.00 </td>
                 <td> 
                     {% if 85 > ultimo_ip_usuario_machos  %}
                         {% for obj in regular %}
@@ -395,7 +395,7 @@
             <tr>
                 <td> IP hembras</td>
                 <td> {{ultimo_ip_usuario_hembras}} </td>
-                <td> 100 </td>
+                <td> 100.00 </td>
                 <td> 
                     {% if 85 > ultimo_ip_usuario_hembras  %}
                         {% for obj in regular %}
@@ -419,7 +419,7 @@
             <tr class="table-secondary">
                 <td> IP mixto </td>
                 <td> {{ultimo_ip_usuario_mixto}} </td>
-                <td> 100 </td>
+                <td> 100.00 </td>
                 <td> 
                     {% if 85 > ultimo_ip_usuario_mixto  %}
                         {% for obj in regular %}

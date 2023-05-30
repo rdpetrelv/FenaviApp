@@ -11,7 +11,7 @@
         var grafico_mortalidad_mixtoCtx = document.getElementById('grafico_mortalidad_mixto').getContext('2d');
         var grafico_mortalidad_mixto = new Chart(grafico_mortalidad_mixtoCtx, {
             data: {
-                labels: [ {% for semana in semanas_posibles %} {{semana}}, {%endfor%}], //loop through queryset, 
+                labels:  {{semanas_posibles }} , //loop through queryset, 
                 datasets: [{
                     type: 'line',
                     label: 'Tasa de mortalidad mixto',
@@ -37,15 +37,29 @@
             },
             options: {
                 responsive: true,
+                plugins : {
+                    tooltip :{
+                        callbacks: {
+                            label: function(context) {
+                                let label = grafico_mortalidad_mixto.context.dataset.label;
+                                label += '%';
+                                return label;
+                            }
+                        }
+                    }
+                },
                 scales: {
-                    y: {
-                        beginAtZero: true
-                    },
                     yAxes: [{
                         scaleLabel: {
                             display: true,
                             labelString: 'Porcentaje'
                         },
+                        ticks: {
+                            // Include a dollar sign in the ticks
+                            callback: function(value, index, ticks) {
+                                return  value +'%';
+                            }
+                        }
                     }],
                     xAxes: [{
                         scaleLabel: {
@@ -87,13 +101,19 @@
                 responsive: true,
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
                     },
                     yAxes: [{
                         scaleLabel: {
                             display: true,
                             labelString: 'Porcentaje'
                         },
+                        ticks: {
+                            // Include a dollar sign in the ticks
+                            callback: function(value, index, ticks) {
+                                return  value +'%';
+                            }
+                        }
                     }],
                     xAxes: [{
                         scaleLabel: {
@@ -142,6 +162,12 @@
                             display: true,
                             labelString: 'Porcentaje'
                         },
+                        ticks: {
+                            // Include a dollar sign in the ticks
+                            callback: function(value, index, ticks) {
+                                return  value +'%';
+                            }
+                        }
                     }],
                     xAxes: [{
                         scaleLabel: {
@@ -184,21 +210,21 @@
     <div class="container text-center">
         <div class="row m-2">
             <div class="col">
-              <button class="btn btn-outline-success btn-sm"> <b>Aves iniciales: {{mixto_aves_inicial}} </b></button>
+              <button class="btn btn-outline-success btn-sm"> <b>Aves iniciales: {{mixto_aves_inicial |floatformat:"g"}} </b></button>
             </div>
             <div class="col">
-              <button class="btn btn-outline-success btn-sm"><b>Aves actuales: {{mixto_aves_final}}</b></button>
+              <button class="btn btn-outline-success btn-sm"><b>Aves actuales: {{mixto_aves_final|floatformat:"g"}}</b></button>
             </div>
             <div class="col">
-                <button class="btn btn-outline-success btn-sm"><b>Meta aves finales: {{ objetivo_aves_final_mixto}}</b></button>
+                <button class="btn btn-outline-success btn-sm"><b>Meta aves finales: {{ objetivo_aves_final_mixto|floatformat:"g"}}</b></button>
               </div>
         </div>
         <div class="row m-2">
             <div class="col">
-                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad actual: {{mixto_porcentaje_actual}}% </b></button>
+                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad actual: {{mixto_porcentaje_actual|floatformat:"2g"}}% </b></button>
             </div>
             <div class="col">
-                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad meta: 5%</b></button>
+                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad meta: 4.20%</b></button>
             </div>
             
         </div>
@@ -206,11 +232,11 @@
             <div class="col">
             </div>
             <div class="col">
-                {% if mixto_porcentaje_actual > 5  %}
+                {% if mixto_porcentaje_actual > 5.5  %}
                     {% for obj in regular %}
                         <img src="{{ obj.image.url }}" width="80" >
                     {% endfor %} 
-                {% elif 4 > mixto_porcentaje_actual  %}
+                {% elif 4.2 > mixto_porcentaje_actual  %}
                     {% for obj in excelente %}
                         <img src="{{ obj.image.url }}" width="80" >
                     {% endfor %} 
@@ -240,21 +266,21 @@
     <div class="container text-center">
         <div class="row m-2">
             <div class="col">
-              <button class="btn btn-outline-success btn-sm"><b>Aves iniciales: {{machos_aves_inicial}}</b> </button>
+              <button class="btn btn-outline-success btn-sm"><b>Aves iniciales: {{machos_aves_inicial|floatformat:"g"}}</b> </button>
             </div>
             <div class="col">
-              <button class="btn btn-outline-success btn-sm"><b>Aves actuales: {{machos_aves_final}}</b></button>
+              <button class="btn btn-outline-success btn-sm"><b>Aves actuales: {{machos_aves_final|floatformat:"g"}}</b></button>
             </div>
             <div class="col">
-                <button class="btn btn-outline-success btn-sm"><b>Meta aves finales: {{ objetivo_aves_final_machos}}</b></button>
+                <button class="btn btn-outline-success btn-sm"><b>Meta aves finales: {{ objetivo_aves_final_machos|floatformat:"g"}}</b></button>
               </div>
         </div>
         <div class="row m-2">
             <div class="col">
-                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad actual: {{machos_porcentaje_actual}}% </b></button>
+                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad actual: {{machos_porcentaje_actual|floatformat:"2g"}}% </b></button>
             </div>
             <div class="col">
-                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad meta: 5%</b></button>
+                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad meta: 4.20%</b></button>
             </div>
             
         </div>
@@ -262,11 +288,11 @@
             <div class="col">
             </div>
             <div class="col">
-                {% if machos_porcentaje_actual > 5  %}
+                {% if machos_porcentaje_actual > 5.5  %}
                     {% for obj in regular %}
                         <img src="{{ obj.image.url }}" width="80" >
                     {% endfor %} 
-                {% elif 4 > machos_porcentaje_actual  %}
+                {% elif 4.2 > machos_porcentaje_actual  %}
                     {% for obj in excelente %}
                         <img src="{{ obj.image.url }}" width="80" >
                     {% endfor %} 
@@ -296,21 +322,21 @@
     <div class="container text-center">
         <div class="row m-2">
             <div class="col">
-              <button class="btn btn-outline-success btn-sm"><b>Aves iniciales: {{hembras_aves_inicial}}</b> </button>
+              <button class="btn btn-outline-success btn-sm"><b>Aves iniciales: {{hembras_aves_inicial|floatformat:"g"}}</b> </button>
             </div>
             <div class="col">
-              <button class="btn btn-outline-success btn-sm"><b>Aves actuales: {{hembras_aves_final}}</b></button>
+              <button class="btn btn-outline-success btn-sm"><b>Aves actuales: {{hembras_aves_final|floatformat:"g"}}</b></button>
             </div>
             <div class="col">
-                <button class="btn btn-outline-success btn-sm"><b>Meta aves finales: {{ objetivo_aves_final_hembras}}</b></button>
+                <button class="btn btn-outline-success btn-sm"><b>Meta aves finales: {{ objetivo_aves_final_hembras|floatformat:"g"}}</b></button>
               </div>
         </div>
         <div class="row m-2">
             <div class="col">
-                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad actual: {{hembras_porcentaje_actual}}% </b></button>
+                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad actual: {{hembras_porcentaje_actual|floatformat:"2g"}}% </b></button>
             </div>
             <div class="col">
-                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad meta: 5%</b></button>
+                <button class="btn btn-outline-primary btn-sm"><b>% Mortalidad meta: 4.20%</b></button>
             </div>
             
         </div>
@@ -318,11 +344,11 @@
             <div class="col">
             </div>
             <div class="col">
-                {% if hembras_porcentaje_actual > 5  %}
+                {% if hembras_porcentaje_actual > 5.5  %}
                     {% for obj in regular %}
                         <img src="{{ obj.image.url }}" width="80" >
                     {% endfor %} 
-                {% elif 4 > hembras_porcentaje_actual  %}
+                {% elif 4.2 > hembras_porcentaje_actual  %}
                     {% for obj in excelente %}
                         <img src="{{ obj.image.url }}" width="80" >
                     {% endfor %} 

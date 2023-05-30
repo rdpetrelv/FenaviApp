@@ -369,7 +369,9 @@ def visual_Evolucion_Peso2(request):
             'mixto_CA_final':datos_pesos['mixto_CA_final'],
             'regular' : regular,
             'bueno' : bueno,
-            'excelente' : excelente
+            'excelente' : excelente,
+            'raza_ultimo_ciclo' : datos_pesos['raza_ultimo_ciclo'],
+            'dias_ultimo_ciclo' : datos_pesos['dias_ultimo_ciclo'],
             })
 
 #visual para grafica de conversión alimenticia
@@ -425,7 +427,9 @@ def visual_Conversion_Alimenticia2(request):
             'objetivo_conversion_final_mixto' : datos_pesos['objetivo_conversion_final_mixto'],
             'regular' : regular,
             'bueno' : bueno,
-            'excelente' : excelente
+            'excelente' : excelente,
+            'raza_ultimo_ciclo' : datos_pesos['raza_ultimo_ciclo'],
+            'dias_ultimo_ciclo' : datos_pesos['dias_ultimo_ciclo'],
             })
 
 @login_required
@@ -551,7 +555,8 @@ def visual_Indice_productividad2(request):
             'regular' : regular,
             'bueno' : bueno,
             'excelente' : excelente,
-            'safcm' : datos_IP['safcm']
+            'safcm' : datos_IP['safcm'],
+            'productor' : datos_IP['productor'],
             }
         )
 
@@ -562,6 +567,9 @@ def obtenerMedidasGraficos(request):
     alimento_filto = Alimento.objects.filter(user = request.user).order_by('-ciclo')
     mortalidad_filtro = Mortalidad.objects.filter(user = request.user).order_by('-ciclo')
     ciclos_filtro_usuario = Cicloproduccion.objects.filter(user = request.user).order_by('-ciclo')
+    productor = str(ciclos_filtro_usuario.order_by('-ciclo').first().productor)
+    raza_ultimo_ciclo = ciclos_filtro_usuario.order_by('-ciclo').first().raza
+    dias_ultimo_ciclo = ciclos_filtro_usuario.order_by('-ciclo').first().dias_ciclo
     ultimo_ciclo_alimento = int(alimento_filto.order_by('-ciclo').first().ciclo)
     ultimo_ciclo_mortalidad = int(mortalidad_filtro.order_by('-ciclo').first().ciclo)
     ultimo_ciclo_ciclos_produccion = int(ciclos_filtro_usuario.order_by('-ciclo').first().ciclo)
@@ -574,14 +582,76 @@ def obtenerMedidasGraficos(request):
     
     #definicion de objetivos
     semanas_posibles = list(range(1,7))
-    objetivo_conversion_alimento_mixto =[0.891, 1.029,1.182,1.322,1.441,1.555,1.686]
-    objetivo_peso_mixto =[202,570,1116,1783,2521,3278,4001]
-    objetivo_conversion_alimento_machos =[0.883,1.018,1.166,1.301,1.417,1.518,1.653]
-    objetivo_peso_machos =[205,603,1188,1904,2694,3503,4275]
-    objetivo_conversion_alimento_hembras =[0.884,1.041,1.200,1.346,1.469,1.527,1.724]
-    objetivo_peso_hembras =[199,537,1043,1662,2348,3052,3728]
-    objetivo_mortalidad =[0.0071,0.0224,0.0313,0.0377,0.0426,0.0466,0.05]
+    #objetivo_conversion_alimento_mixto =[0.891, 1.029,1.182,1.322,1.441,1.555,1.686]
+    objetivo_conversion_alimento_mixto =[0.772,0.995,1.13,1.257,1.3855,1.516]
+
+
+    #objetivo_peso_mixto =[202,570,1116,1783,2521,3278,4001]
+    objetivo_peso_mixto =[213.5,540.5,1032.5,1657,2360,3086]
+
+
+    # objetivo_conversion_alimento_machos =[0.883,1.018,1.166,1.301,1.417,1.518,1.653]
+    # objetivo_peso_machos =[205,603,1188,1904,2694,3503,4275]
+    # objetivo_conversion_alimento_hembras =[0.884,1.041,1.200,1.346,1.469,1.527,1.724]
+    # objetivo_peso_hembras =[199,537,1043,1662,2348,3052,3728]
+
+    objetivo_conversion_alimento_machos =[0.752,0.991,1.129,1.253,1.377,1.502]
+    objetivo_peso_machos =[213,549,1067,1739,2509,3316]
+    objetivo_conversion_alimento_hembras =[0.792,0.999,1.131,1.261,1.394,1.53]
+    objetivo_peso_hembras =[214,532,998,1575,2211,2856]
+    objetivo_mortalidad =[0.0070,0.014,0.0210,0.0280,0.0350,0.0420, 0.0490]
     objetivo_supervivencia = [1 - obj for obj in objetivo_mortalidad ]
+
+
+    objetivo_dias_ca_machos = [1.395,1.413,1.43,1.448,1.466,1.484,1.502,1.52,1.538,1.555,1.573,1.591,1.609,1.627]
+    objetivo_dias_peso_machos = [2623,2738,2853,2969,3085,3200,3316,3431,3546,3660,3773,3886,3998,4109]
+
+    objetivo_dias_ca_hembras = [1.413,1.433,1.452,1.472,1.491,1.511,1.53,1.549,1.569,1.588,1.608,1.627,1.647,1.666]
+    objetivo_dias_peso_hembras = [2303,2396,2489,2581,2673,2765,2856,2946,3036,3125,3214,3301,3387,3473]
+
+    objetivo_dias_ca_mixto = [2463,2567,2671,2775,2879,2982,3086,3189,3291,3393,3493,3594,3693,3791]
+    objetivo_dias_peso_mixto = [1.404,1.423,1.441,1.46,1.479,1.497,1.516,1.535,1.553,1.572,1.591,1.609,1.628,1.646]
+
+    if dias_ultimo_ciclo > 35 and dias_ultimo_ciclo < 49 :
+            objetivo_conversion_alimento_machos[5]= objetivo_dias_ca_machos[dias_ultimo_ciclo -36]
+            objetivo_peso_machos[5]= objetivo_dias_peso_machos [dias_ultimo_ciclo -36]
+            objetivo_conversion_alimento_hembras[5]= objetivo_dias_ca_hembras[dias_ultimo_ciclo -36]
+            objetivo_peso_hembras[5]= objetivo_dias_peso_hembras[dias_ultimo_ciclo -36]
+            objetivo_conversion_alimento_mixto[5]= objetivo_dias_ca_mixto[dias_ultimo_ciclo -36]
+            objetivo_peso_mixto[5]= objetivo_dias_peso_mixto[dias_ultimo_ciclo -36]
+
+    objetivo_conversion_alimento_machos_Cobb = [0.883,1.018,1.166,1.301,1.417,1.528]
+    objetivo_conversion_alimento_hembras_Cobb = [0.884,1.041,1.2,1.346,1.469,1.587]
+    objetivo_conversion_alimento_mixto_Cobb =[0.891,1.029,1.182,1.322,1.441,1.555]
+    objetivo_peso_machos_Cobb = [205,603,1188,1904,2694,3503]
+    objetivo_peso_hembras_Cobb = [199,537,1043,1662,2348,3052]
+    objetivo_peso_mixto_Cobb = [202,570,1116,1783,2521,3278]
+
+    objetivo_dias_ca_machos_Cobb = [1.433,1.449,1.464,1.48,1.496,1.512,1.528,1.544,1.561,1.579,1.597,1.615,1.633,1.653]
+    objetivo_dias_peso_machos_Cobb = [2810,2926,3042,3158,3274,3389,3503,3617,3730,3842,3952,4062,4169,4275]
+
+    objetivo_dias_ca_hembras_Cobb = [1.486,1.502,1.519,1.535,1.552,1.57,1.587,1.605,1.623,1.642,1.662,1.682,1.703,1.724]
+    objetivo_dias_peso_hembras_Cobb = [2448,2549,2650,2751,2852,2952,3052,3151,3250,3348,3445,3540,3635,3728]
+
+    objetivo_dias_ca_mixto_Cobb = [1.457,1.474,1.49,1.506,1.522,1.539,1.555,1.573,1.59,1.608,1.627,1.646,1.666,1.686]
+    objetivo_dias_peso_mixto_Cobb = [2629,2738,2846,2954,3062,3170,3278,3384,3490,3595,3699,3801,3902,4001]
+
+    if raza_ultimo_ciclo == 'COBB' :
+        objetivo_conversion_alimento_machos = objetivo_conversion_alimento_machos_Cobb
+        objetivo_peso_machos =objetivo_peso_machos_Cobb
+        objetivo_conversion_alimento_hembras = objetivo_conversion_alimento_hembras_Cobb
+        objetivo_peso_hembras = objetivo_peso_hembras_Cobb
+        objetivo_conversion_alimento_mixto = objetivo_conversion_alimento_mixto_Cobb
+        objetivo_peso_mixto = objetivo_peso_mixto_Cobb
+        if dias_ultimo_ciclo > 35 and dias_ultimo_ciclo < 49 :
+            objetivo_conversion_alimento_machos[5]= objetivo_dias_ca_machos_Cobb[dias_ultimo_ciclo -36]
+            objetivo_peso_machos[5]= objetivo_dias_peso_machos_Cobb [dias_ultimo_ciclo -36]
+            objetivo_conversion_alimento_hembras[5]= objetivo_dias_ca_hembras_Cobb[dias_ultimo_ciclo -36]
+            objetivo_peso_hembras[5]= objetivo_dias_peso_hembras_Cobb[dias_ultimo_ciclo -36]
+            objetivo_conversion_alimento_mixto[5]= objetivo_dias_ca_mixto_Cobb[dias_ultimo_ciclo -36]
+            objetivo_peso_mixto[5]= objetivo_dias_peso_mixto_Cobb[dias_ultimo_ciclo -36]
+
+
 
     # Informacion relevante diccionario mortalidad: aves iniciales, actuales y finales, objetivos, mortalidades acumuladas
     machos_aves_inicial = int(ciclos_filtro_usuario.filter(ciclo = ultimo_ciclo_mortalidad, sexo = 'Macho').first().aves_iniciales)
@@ -859,7 +929,8 @@ def obtenerMedidasGraficos(request):
         'ultimo_ip_usuario_machos' : round(ip_ciclos_posibles_machos[0],2),
         'ultimo_ip_usuario_hembras' : round(ip_ciclos_posibles_hembras[0],2),
         'ultimo_ip_usuario_mixto' : round(safcm[-1],2),
-        'safcm' : safcm
+        'safcm' : safcm,
+        'productor' : productor,
     }
 
     diccionario_mortalidad = {
@@ -923,7 +994,9 @@ def obtenerMedidasGraficos(request):
         'mixto_CA_semanas': mixto_CA_semanas,
         'machos_CA_final':machos_CA_final,
         'hembras_CA_final':hembras_CA_final,
-        'mixto_CA_final':mixto_CA_final
+        'mixto_CA_final':mixto_CA_final,
+        'raza_ultimo_ciclo' : raza_ultimo_ciclo,
+        'dias_ultimo_ciclo' : dias_ultimo_ciclo,
     }
 
     return ({'diccionario_mortalidad':diccionario_mortalidad, 'diccionario_pesos_CA':diccionario_pesos_CA, 'diccionario_ciclos_IP' : diccionario_ciclos_IP})

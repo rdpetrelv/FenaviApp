@@ -166,7 +166,8 @@
 </div>
 <div class="container m-2 mb-3 mt-4">
 <h5> Hola, {{ user.first_name }} {{ user.last_name }} ! </h5>
-<h5> A continuación se muestra la evolución de peso de las aves para el ciclo actual</h5>
+<h5> A continuación se muestra la evolución de peso de las aves para el ciclo actual.</h5>
+<h5> La raza de este ciclo es {{raza_ultimo_ciclo}} y los dias finales del ciclo fueron {{dias_ultimo_ciclo}}.</h5>
 </div>
 
 <!-- displaying the chart -->
@@ -186,20 +187,20 @@
     <div class="container text-center">
         <div class="row m-2">
             <div class="col">
-                <button class="btn btn-outline-success btn-m"><b>Peso final mixto: {{  mixto_peso_final}}</b></button>
+                <button class="btn btn-outline-success btn-m"><b>Peso final mixto: {{  mixto_peso_final|floatformat:"g"}}g</b></button>
             </div>
             <div class="col">
-                <button class="btn btn-outline-success btn-m"><b>Meta peso final: {{ objetivo_peso_final_mixto}} </b></button>
+                <button class="btn btn-outline-success btn-m"><b>Meta peso final: {{ objetivo_peso_final_mixto|floatformat:"g"}}g</b></button>
             </div>
             
         </div>
         {% if ultima_semana_ciclo_alimento != 6 %}
             <div class="row m-2">
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-m"><b>Peso actual mixto: {{  mixto_peso_final}}</b></button>
+                    <button class="btn btn-outline-primary btn-m"><b>Peso actual mixto: {{  mixto_peso_final|floatformat:"g"}}g</b></button>
                 </div>
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-m"><b>Meta actual de peso: {{objetivo_peso_actual_mixto}} </b></button>
+                    <button class="btn btn-outline-primary btn-m"><b>Meta actual de peso: {{objetivo_peso_actual_mixto|floatformat:"g"}}g </b></button>
                 </div>
                 
             </div>
@@ -238,20 +239,20 @@
     <div class="container text-center">
         <div class="row m-2">
             <div class="col">
-                <button class="btn btn-outline-success btn-m"><b>Peso final machos: {{  machos_peso_final}}</b></button>
+                <button class="btn btn-outline-success btn-m"><b>Peso final machos: {{  machos_peso_final|floatformat:"g"}}g</b></button>
             </div>
             <div class="col">
-                <button class="btn btn-outline-success btn-m"><b>Meta peso final: {{ objetivo_peso_final_machos}}</b> </button>
+                <button class="btn btn-outline-success btn-m"><b>Meta peso final: {{ objetivo_peso_final_machos|floatformat:"g"}}g</b> </button>
             </div>
             
         </div>
         {% if ultima_semana_ciclo_alimento != 6 %}
             <div class="row m-2">
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-m"><b>Peso actual machos: {{  machos_peso_final}}</b></button>
+                    <button class="btn btn-outline-primary btn-m"><b>Peso actual machos: {{  machos_peso_final|floatformat:"g"}}g</b></button>
                 </div>
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-m"><b>Meta actual de peso: {{objetivo_peso_actual_machos}} </b></button>
+                    <button class="btn btn-outline-primary btn-m"><b>Meta actual de peso: {{objetivo_peso_actual_machos|floatformat:"g"}}g </b></button>
                 </div>
                 
             </div>
@@ -290,20 +291,20 @@
     <div class="container text-center">
         <div class="row m-2">
             <div class="col">
-                <button class="btn btn-outline-success btn-m"><b>Peso final hembras: {{  hembras_peso_final}}</b></button>
+                <button class="btn btn-outline-success btn-m"><b>Peso final hembras: {{  hembras_peso_final|floatformat:"g"}}g</b></button>
             </div>
             <div class="col">
-                <button class="btn btn-outline-success btn-m"><b>Meta peso final: {{ objetivo_peso_final_hembras}} </b></button>
+                <button class="btn btn-outline-success btn-m"><b>Meta peso final: {{ objetivo_peso_final_hembras|floatformat:"g"}}g </b></button>
             </div>
             
         </div>
         {% if ultima_semana_ciclo_alimento != 6 %}
             <div class="row m-2">
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-m"><b>Peso actual hembras: {{  hembras_peso_final}}</b></button>
+                    <button class="btn btn-outline-primary btn-m"><b>Peso actual hembras: {{  hembras_peso_final|floatformat:"g"}}g</b></button>
                 </div>
                 <div class="col">
-                    <button class="btn btn-outline-primary btn-m"><b>Meta actual de peso: {{objetivo_peso_actual_hembras}} </b></button>
+                    <button class="btn btn-outline-primary btn-m"><b>Meta actual de peso: {{objetivo_peso_actual_hembras|floatformat:"g"}}g </b></button>
                 </div>
             </div>
         {% endif %}
