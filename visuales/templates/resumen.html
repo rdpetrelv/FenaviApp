@@ -271,6 +271,91 @@
         </tfoot>
     </table>
 </div>
+<!-- Nueva tabla para ganancia de peso -->
+<div class="card mb-3 text-center m-2"> 
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr class="table-secondary">
+                <th scope="col">Nombre de la medida</th>
+                {% if ultimo_ciclo_mortalidad == ultimo_ciclo_alimento and ultima_semana_ciclo_mortalidad == ultima_semana_ciclo_alimento%}
+                    {% if ultima_semana_ciclo_alimento == 6 %}
+                        <th scope="col">Valor final</th>
+                        <th scope="col">Meta final</th> 
+                    {% else %}
+                    <th scope="col">Valor actual</th>
+                    <th scope="col">Meta actual</th>
+                    {% endif %}
+                {% endif %}
+                <th scope="col">Desempeño</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr>
+                <td> Ganancia de peso machos (g)</td>
+                <td> {{ganancia_final_machos|floatformat:"g"}} </td>
+                <td> {{objetivo_ganancia_final_machos|floatformat:"g"}} </td>
+                <td> 
+                    {% if objetivo_ganancia_final_machos > ganancia_final_machos  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif ganancia_final_machos > objetivo_ganancia_final_machos  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td> Ganancia de peso hembras (g) </td>
+                <td> {{ganancia_final_hembras|floatformat:"g"}} </td>
+                <td> {{objetivo_ganancia_final_hembras|floatformat:"g"}} </td>
+                <td> 
+                    {% if objetivo_ganancia_final_hembras > ganancia_final_hembras  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif ganancia_final_hembras > objetivo_ganancia_final_hembras  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+        <tfoot class="table-group-divider">
+            <tr class="table-secondary">
+                <td > Ganancia de peso mixto (g) </td>
+                <td> {{ganancia_final_mixto|floatformat:"g"}} </td>
+                <td> {{objetivo_ganancia_final_mixto|floatformat:"g"}} </td>
+                <td> 
+                    {% if objetivo_ganancia_final_mixto > ganancia_final_mixto  %}
+                        {% for obj in regular %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% elif ganancia_final_mixto > objetivo_ganancia_final_mixto  %}
+                        {% for obj in excelente %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% else %}
+                        {% for obj in bueno %}
+                            <img src="{{ obj.image.url }}" width="80" >
+                        {% endfor %} 
+                    {% endif %}
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
 <div class="card mb-3 text-center m-2"> 
     <table class="table table-striped align-middle">
         <thead>
@@ -294,11 +379,11 @@
                 <td> {{machos_CA_final|floatformat:"2g"}} </td>
                 <td> {{objetivo_conversion_actual_machos|floatformat:"2g"}} </td>
                 <td> 
-                    {% if objetivo_conversion_actual_machos > machos_CA_final  %}
+                    {% if objetivo_conversion_actual_machos < machos_CA_final  %}
                         {% for obj in regular %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
-                    {% elif machos_CA_final > objetivo_conversion_actual_machos  %}
+                    {% elif machos_CA_final < objetivo_conversion_actual_machos  %}
                         {% for obj in excelente %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
@@ -314,11 +399,11 @@
                 <td> {{hembras_CA_final|floatformat:"2g"}} </td>
                 <td> {{objetivo_conversion_actual_hembras|floatformat:"2g"}} </td>
                 <td> 
-                    {% if objetivo_conversion_actual_hembras > hembras_CA_final  %}
+                    {% if objetivo_conversion_actual_hembras < hembras_CA_final  %}
                         {% for obj in regular %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
-                    {% elif hembras_CA_final > objetivo_conversion_actual_hembras  %}
+                    {% elif hembras_CA_final < objetivo_conversion_actual_hembras  %}
                         {% for obj in excelente %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
@@ -336,11 +421,11 @@
                 <td> {{mixto_CA_final|floatformat:"2g"}} </td>
                 <td> {{objetivo_conversion_actual_mixto|floatformat:"2g"}} </td>
                 <td> 
-                    {% if objetivo_conversion_actual_mixto > mixto_CA_final  %}
+                    {% if objetivo_conversion_actual_mixto < mixto_CA_final  %}
                         {% for obj in regular %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
-                    {% elif mixto_CA_final > objetivo_conversion_actual_mixto  %}
+                    {% elif mixto_CA_final < objetivo_conversion_actual_mixto  %}
                         {% for obj in excelente %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
@@ -377,11 +462,11 @@
                 <td> {{ultimo_ip_usuario_machos}} </td>
                 <td> 100.00 </td>
                 <td> 
-                    {% if 85 > ultimo_ip_usuario_machos  %}
+                    {% if objetivo_IP_regular > ultimo_ip_usuario_machos  %}
                         {% for obj in regular %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
-                    {% elif ultimo_ip_usuario_machos > 100  %}
+                    {% elif ultimo_ip_usuario_machos > objetivo_IP_bueno  %}
                         {% for obj in excelente %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
@@ -397,11 +482,11 @@
                 <td> {{ultimo_ip_usuario_hembras}} </td>
                 <td> 100.00 </td>
                 <td> 
-                    {% if 85 > ultimo_ip_usuario_hembras  %}
+                    {% if objetivo_IP_regular > ultimo_ip_usuario_hembras  %}
                         {% for obj in regular %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
-                    {% elif ultimo_ip_usuario_hembras > 100  %}
+                    {% elif ultimo_ip_usuario_hembras > objetivo_IP_bueno  %}
                         {% for obj in excelente %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
@@ -421,11 +506,11 @@
                 <td> {{ultimo_ip_usuario_mixto}} </td>
                 <td> 100.00 </td>
                 <td> 
-                    {% if 85 > ultimo_ip_usuario_mixto  %}
+                    {% if objetivo_IP_regular > ultimo_ip_usuario_mixto  %}
                         {% for obj in regular %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
-                    {% elif ultimo_ip_usuario_mixto > 100  %}
+                    {% elif ultimo_ip_usuario_mixto > objetivo_IP_bueno  %}
                         {% for obj in excelente %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 

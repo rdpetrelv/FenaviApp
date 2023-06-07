@@ -27,6 +27,7 @@ urlpatterns = [
     path('conversion/', visualesviews.visual_Conversion_Alimenticia2, name = 'conversion'),
     path('mortalidad/', visualesviews.visual_Mortalidad2, name = 'mortalidad'),
     path('peso/', visualesviews.visual_Evolucion_Peso2, name = 'peso'),
+    path('gananciapeso/', visualesviews.visual_Ganancia_Peso2, name = 'ganancia'),
     #path('mortalidad/', visualesviews.Graficos2.as_view(), name = 'mortalidad'),
     #path('indiceproductividad/', visualesviews.indiceproductividad, name = 'indiceproductividad'),
     path('usuarios/', include('home.urls')),
