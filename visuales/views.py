@@ -438,8 +438,8 @@ def visual_Evolucion_Peso2(request):
                     "objetivo_peso_actual_hembras"
                 ],
                 "objetivo_peso_mixto": datos_pesos["objetivo_peso_mixto"],
-                "objetivo_peso_machos": datos_pesos["objetivo_peso_mixto"],
-                "objetivo_peso_hembras": datos_pesos["objetivo_peso_mixto"],
+                "objetivo_peso_machos": datos_pesos["objetivo_peso_machos"],
+                "objetivo_peso_hembras": datos_pesos["objetivo_peso_hembras"],
                 "machos_CA_semanas": datos_pesos["machos_CA_semanas"],
                 "hembras_CA_semanas": datos_pesos["hembras_CA_semanas"],
                 "mixto_CA_semanas": datos_pesos["mixto_CA_semanas"],
@@ -469,8 +469,15 @@ def visual_Ganancia_Peso2(request):
         regular = imagenes_calificacion.objects.filter(
             clasificacion="regular"
         ).distinct()
+        
 
         datos_pesos = diccionarios_Medidas_Ciclo_actual["diccionario_pesos_CA"]
+        ganancia_total_mixto = datos_pesos["mixto_peso_final"] -datos_pesos["mixto_peso_inicial"]
+        ganancia_total_machos =  datos_pesos["machos_peso_final"] - datos_pesos["machos_peso_inicial"]
+        ganancia_total_hembras = datos_pesos["hembras_peso_final"] - datos_pesos["hembras_peso_inicial"]
+        meta_machos = datos_pesos["objetivo_peso_actual_machos"] - datos_pesos["machos_peso_inicial"]
+        meta_hembras = datos_pesos["objetivo_peso_actual_hembras"] - datos_pesos["hembras_peso_inicial"]
+        meta_mixto = datos_pesos["objetivo_peso_actual_mixto"] -datos_pesos["mixto_peso_inicial"]
         return render(
             request,
             "ganancia.html",
@@ -511,8 +518,8 @@ def visual_Ganancia_Peso2(request):
                     "objetivo_peso_actual_hembras"
                 ],
                 "objetivo_peso_mixto": datos_pesos["objetivo_peso_mixto"],
-                "objetivo_peso_machos": datos_pesos["objetivo_peso_mixto"],
-                "objetivo_peso_hembras": datos_pesos["objetivo_peso_mixto"],
+                "objetivo_peso_machos": datos_pesos["objetivo_peso_machos"],
+                "objetivo_peso_hembras": datos_pesos["objetivo_peso_hembras"],
                 "machos_CA_semanas": datos_pesos["machos_CA_semanas"],
                 "hembras_CA_semanas": datos_pesos["hembras_CA_semanas"],
                 "mixto_CA_semanas": datos_pesos["mixto_CA_semanas"],
@@ -539,6 +546,12 @@ def visual_Ganancia_Peso2(request):
                 'ganancia_final_machos': datos_pesos['ganancia_final_machos'],
                 'ganancia_final_hembras' : datos_pesos['ganancia_final_hembras'],
                 'ganancia_final_mixto': datos_pesos['ganancia_final_mixto'],
+                'ganancia_total_mixto' : ganancia_total_mixto,
+                'ganancia_total_machos' :  ganancia_total_machos,
+                'ganancia_total_hembras': ganancia_total_hembras,
+                'meta_machos' : meta_machos,
+                'meta_hembras' : meta_hembras,
+                'meta_mixto': meta_mixto,
             },
         )
 
@@ -600,8 +613,8 @@ def visual_Conversion_Alimenticia2(request):
                     "objetivo_peso_actual_hembras"
                 ],
                 "objetivo_peso_mixto": datos_pesos["objetivo_peso_mixto"],
-                "objetivo_peso_machos": datos_pesos["objetivo_peso_mixto"],
-                "objetivo_peso_hembras": datos_pesos["objetivo_peso_mixto"],
+                "objetivo_peso_machos": datos_pesos["objetivo_peso_machos"],
+                "objetivo_peso_hembras": datos_pesos["objetivo_peso_hembras"],
                 "machos_CA_semanas": datos_pesos["machos_CA_semanas"],
                 "hembras_CA_semanas": datos_pesos["hembras_CA_semanas"],
                 "mixto_CA_semanas": datos_pesos["mixto_CA_semanas"],
@@ -669,6 +682,12 @@ def visual_Resumen(request):
             hembras_porcentaje_actual = 0
             machos_porcentaje_actual = 0
             mixto_porcentaje_actual = 0
+        ganancia_total_mixto = datos_pesos["mixto_peso_final"] -datos_pesos["mixto_peso_inicial"]
+        ganancia_total_machos =  datos_pesos["machos_peso_final"] - datos_pesos["machos_peso_inicial"]
+        ganancia_total_hembras = datos_pesos["hembras_peso_final"] - datos_pesos["hembras_peso_inicial"]
+        meta_machos = datos_pesos["objetivo_peso_actual_machos"] - datos_pesos["machos_peso_inicial"]
+        meta_hembras = datos_pesos["objetivo_peso_actual_hembras"] - datos_pesos["hembras_peso_inicial"]
+        meta_mixto = datos_pesos["objetivo_peso_actual_mixto"] -datos_pesos["mixto_peso_inicial"]
 
         return render(
             request,
@@ -761,8 +780,8 @@ def visual_Resumen(request):
                     "objetivo_peso_actual_hembras"
                 ],
                 "objetivo_peso_mixto": datos_pesos["objetivo_peso_mixto"],
-                "objetivo_peso_machos": datos_pesos["objetivo_peso_mixto"],
-                "objetivo_peso_hembras": datos_pesos["objetivo_peso_mixto"],
+                "objetivo_peso_machos": datos_pesos["objetivo_peso_machos"],
+                "objetivo_peso_hembras": datos_pesos["objetivo_peso_hembras"],
                 "machos_CA_semanas": datos_pesos["machos_CA_semanas"],
                 "hembras_CA_semanas": datos_pesos["hembras_CA_semanas"],
                 "mixto_CA_semanas": datos_pesos["mixto_CA_semanas"],
@@ -810,6 +829,12 @@ def visual_Resumen(request):
                 'ganancia_final_machos': datos_pesos['ganancia_final_machos'],
                 'ganancia_final_hembras' : datos_pesos['ganancia_final_hembras'],
                 'ganancia_final_mixto': datos_pesos['ganancia_final_mixto'],
+                'ganancia_total_mixto' : ganancia_total_mixto,
+                'ganancia_total_machos' :  ganancia_total_machos,
+                'ganancia_total_hembras': ganancia_total_hembras,
+                'meta_machos' : meta_machos,
+                'meta_hembras' : meta_hembras,
+                'meta_mixto': meta_mixto,
             },
         )
 
@@ -995,22 +1020,6 @@ def obtenerMedidasGraficos(request):
     ]
 
     objetivo_dias_ca_mixto = [
-        2463,
-        2567,
-        2671,
-        2775,
-        2879,
-        2982,
-        3086,
-        3189,
-        3291,
-        3393,
-        3493,
-        3594,
-        3693,
-        3791,
-    ]
-    objetivo_dias_peso_mixto = [
         1.404,
         1.423,
         1.441,
@@ -1027,6 +1036,22 @@ def obtenerMedidasGraficos(request):
         1.646,
     ]
 
+    objetivo_dias_peso_mixto = [
+        2463,
+        2567,
+        2671,
+        2775,
+        2879,
+        2982,
+        3086,
+        3189,
+        3291,
+        3393,
+        3493,
+        3594,
+        3693,
+        3791,
+    ]
     if dias_ultimo_ciclo > 35 and dias_ultimo_ciclo < 49:
         objetivo_conversion_alimento_machos[5] = objetivo_dias_ca_machos[
             dias_ultimo_ciclo - 36
@@ -1614,9 +1639,11 @@ def obtenerMedidasGraficos(request):
     #     if len(list(ciclos_filtro_usuario.order_by('-ciclo').values_list('ciclo', flat = True))) >i:
     #         ciclos_posibles.append(ciclos_filtro_usuario.order_by('-ciclo')[i].ciclo)
     #         ip_ciclos_posibles_machos.append(round(ciclos_filtro_usuario.order_by('-ciclo')[i].indice_productividad,2))
-
+    bodega = Cicloproduccion.objects.filter(
+        sexo="Macho", ciclo=ultimo_ciclo_ciclos_produccion,user=request.user
+    ).order_by("-indice_productividad").first().bodega
     ciclos_productores_filtro_ultimo_ciclo = Cicloproduccion.objects.filter(
-        sexo="Macho", ciclo=ultimo_ciclo_ciclos_produccion
+        sexo="Macho", ciclo=ultimo_ciclo_ciclos_produccion, bodega =bodega
     ).order_by("-indice_productividad")
     productores_machos = list(
         ciclos_productores_filtro_ultimo_ciclo.values_list("productor", flat=True)
@@ -1627,7 +1654,7 @@ def obtenerMedidasGraficos(request):
         )
     )
     ciclos_productores_filtro_ultimo_ciclo_hembras = Cicloproduccion.objects.filter(
-        sexo="Hembra", ciclo=ultimo_ciclo_ciclos_produccion
+        sexo="Hembra", ciclo=ultimo_ciclo_ciclos_produccion,bodega =bodega
     ).order_by("-indice_productividad")
     productores_hembras = list(
         ciclos_productores_filtro_ultimo_ciclo_hembras.values_list(
@@ -1642,7 +1669,7 @@ def obtenerMedidasGraficos(request):
     ip_productores_mixtos = []
 
     objetos_filtro_ultimo_ciclo = Cicloproduccion.objects.filter(
-        ciclo=ultimo_ciclo_ciclos_produccion
+        ciclo=ultimo_ciclo_ciclos_produccion, bodega = bodega
     )
     productores_mixto = list(
         objetos_filtro_ultimo_ciclo.values_list("productor", flat=True).distinct()
@@ -1891,8 +1918,8 @@ def obtenerMedidasGraficos(request):
         "hembras_peso_semanas": hembras_peso_semanas,
         "mixto_peso_semanas": mixto_peso_semanas,
         "objetivo_peso_mixto": objetivo_peso_mixto,
-        "objetivo_peso_machos": objetivo_peso_mixto,
-        "objetivo_peso_hembras": objetivo_peso_mixto,
+        "objetivo_peso_machos": objetivo_peso_machos,
+        "objetivo_peso_hembras": objetivo_peso_hembras,
         "objetivo_conversion_alimento_mixto": objetivo_conversion_alimento_mixto,
         "objetivo_peso_final_mixto": objetivo_peso_mixto[-1],
         "objetivo_peso_actual_mixto": objetivo_peso_mixto[

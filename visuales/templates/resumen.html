@@ -292,14 +292,14 @@
         <tbody class="table-group-divider">
             <tr>
                 <td> Ganancia de peso machos (g)</td>
-                <td> {{ganancia_final_machos|floatformat:"g"}} </td>
-                <td> {{objetivo_ganancia_final_machos|floatformat:"g"}} </td>
+                <td> {{ganancia_total_machos|floatformat:"1g"}} </td>
+                <td> {{meta_machos|floatformat:"1g"}} </td>
                 <td> 
-                    {% if objetivo_ganancia_final_machos > ganancia_final_machos  %}
+                    {% if meta_machos > ganancia_total_machos  %}
                         {% for obj in regular %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
-                    {% elif ganancia_final_machos > objetivo_ganancia_final_machos  %}
+                    {% elif ganancia_total_machos > meta_machos  %}
                         {% for obj in excelente %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
@@ -312,14 +312,14 @@
             </tr>
             <tr>
                 <td> Ganancia de peso hembras (g) </td>
-                <td> {{ganancia_final_hembras|floatformat:"g"}} </td>
-                <td> {{objetivo_ganancia_final_hembras|floatformat:"g"}} </td>
+                <td> {{ganancia_total_hembras|floatformat:"1g"}} </td>
+                <td> {{meta_hembras|floatformat:"1g"}} </td>
                 <td> 
-                    {% if objetivo_ganancia_final_hembras > ganancia_final_hembras  %}
+                    {% if meta_hembras > ganancia_total_hembras  %}
                         {% for obj in regular %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
-                    {% elif ganancia_final_hembras > objetivo_ganancia_final_hembras  %}
+                    {% elif ganancia_total_hembras > meta_hembras  %}
                         {% for obj in excelente %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
@@ -334,14 +334,14 @@
         <tfoot class="table-group-divider">
             <tr class="table-secondary">
                 <td > Ganancia de peso mixto (g) </td>
-                <td> {{ganancia_final_mixto|floatformat:"g"}} </td>
-                <td> {{objetivo_ganancia_final_mixto|floatformat:"g"}} </td>
+                <td> {{ganancia_total_mixto|floatformat:"1g"}} </td>
+                <td> {{meta_mixto|floatformat:"1g"}} </td>
                 <td> 
-                    {% if objetivo_ganancia_final_mixto > ganancia_final_mixto  %}
+                    {% if meta_mixto > ganancia_total_mixto  %}
                         {% for obj in regular %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 
-                    {% elif ganancia_final_mixto > objetivo_ganancia_final_mixto  %}
+                    {% elif ganancia_total_mixto > meta_mixto  %}
                         {% for obj in excelente %}
                             <img src="{{ obj.image.url }}" width="80" >
                         {% endfor %} 

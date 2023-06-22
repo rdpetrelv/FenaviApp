@@ -23,15 +23,15 @@ from django.contrib.auth.models import User
 
 
 class CicloproduccionAdmin(ImportExportModelAdmin):
-    pass
+    list_display =('id','productor','ciclo','dias_ciclo','lote','raza','sexo', 'bodega')
 
 
 class AlimentoAdmin(ImportExportModelAdmin):
-    pass
+    list_display =('id','productor','ciclo','sexo','semana')
 
 
 class MortalidadAdmin(ImportExportModelAdmin):
-    pass
+    list_display =('id','productor','ciclo','sexo','semana')
 
 
 class UserResource(resources.ModelResource):

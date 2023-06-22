@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 class Cicloproduccion(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     productor = models.CharField(max_length=1000)
-    ciclo = models.IntegerField(max_length=1000)
+    ciclo = models.IntegerField()
     dias_ciclo = models.IntegerField()
     lote = models.CharField(max_length=1000)
     raza = models.CharField(max_length=1000)
@@ -26,6 +26,7 @@ class Cicloproduccion(models.Model):
     peso_vivo_total_kilogramos = models.DecimalField(decimal_places=5, max_digits=1000)
     conversion_acumulada = models.DecimalField(decimal_places=5, max_digits=1000)
     indice_productividad = models.DecimalField(decimal_places=5, max_digits=1000)
+    bodega = models.CharField(max_length=100, null=True)
 
     class Meta:
         verbose_name_plural = "ciclos de produccion"
@@ -40,7 +41,7 @@ class Cicloproduccion(models.Model):
 class Alimento(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     productor = models.CharField(max_length=1000)
-    ciclo = models.IntegerField(max_length=1000)
+    ciclo = models.IntegerField()
     sexo = models.CharField(max_length=1000)
     semana = models.IntegerField()
     consumo_ave = models.DecimalField(decimal_places=5, max_digits=1000)
@@ -54,7 +55,7 @@ class Alimento(models.Model):
 class Mortalidad(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     productor = models.CharField(max_length=1000)
-    ciclo = models.IntegerField(max_length=1000)
+    ciclo = models.IntegerField()
     sexo = models.CharField(max_length=1000)
     semana = models.IntegerField()
     total_semana = models.IntegerField(null=True)
